@@ -1,6 +1,6 @@
-# db-in-a-box
+# fullstack-app
 
-An offline wrapper for a database like what DFP in a box would have been. Potentially provide way to fill it with data by proxying requests, persistence of data, and can be reset to base after each "run".
+
 
 ## running
 
@@ -8,9 +8,10 @@ An offline wrapper for a database like what DFP in a box would have been. Potent
 
 ### Basic Rest :white_check_mark:
 
-Simple rest service with a couple basic endpoints CRUD
+Simple rest service with a couple basic endpoints CRUD. For the moment this is a todo
 
-Simple express server that containers these endpoints and will respond to requests
+#### Endpoints:
+ -
 
 ### Basic Docker :white_check_mark:
 
@@ -20,9 +21,11 @@ Simple docker container that can host the server and which requests can be made 
 
 Store some data that is slightly more complicated than what was initially created by the rest endpoints. Endpoints now call against the database instead of against local data.
 
-### Dockerize Server and Database
+### Incredibly Basic Frontend
 
-Create a running instance with containers for both the server and the database.
+A very basic app that allows seeing and interacting with the TODOs
+
+### TODO
 
 ### Investigate Mocking for "Local" development
 
