@@ -1,7 +1,5 @@
 # fullstack-app
 
-
-
 ## running
 
 `docker-compose up --build` to run
@@ -10,8 +8,7 @@
 
 Simple rest service with a couple basic endpoints CRUD. For the moment this is a todo
 
-#### Endpoints:
- -
+Endpoints?
 
 ### Basic Docker :white_check_mark:
 
@@ -25,6 +22,10 @@ Store some data that is slightly more complicated than what was initially create
 
 A very basic app that allows seeing and interacting with the TODOs
 
+### Set up Prettier
+
+Basic prettier implementation.
+
 ### TODO
 
 ### Investigate Mocking for "Local" development
@@ -32,5 +33,6 @@ A very basic app that allows seeing and interacting with the TODOs
 Investigate or Implement basic mocking for endpoints. Maybe use a library.
 
 ## To Be Continued
+
 - Proxying of request to create local data store
 - Act as middleware for local tests
