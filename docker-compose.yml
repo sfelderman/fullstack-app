@@ -1,0 +1,15 @@
+version: '3'
+services:
+  server:
+    build: ./server
+    command: sh -c "yarn install && yarn start"
+    environment:
+      - PORT=8080
+      - USERNAME=${USERNAME}
+      - PASSWORD=${PASSWORD}
+    ports:
+      - 8080:8080
+      - 9229:9229
+    working_dir: /root/server
+    volumes:
+      - ./server:/root/server:cached # <--- This will map ./server to /root/server inside the container.
