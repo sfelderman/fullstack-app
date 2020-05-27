@@ -16,7 +16,11 @@ const db = `mongodb+srv://${process.env.USERNAME}:${process.env.PASSWORD}@sf-boo
 
 // Connect to MongoDB
 mongoose
-	.connect(db, { useNewUrlParser: true, useUnifiedTopology: true, useFindAndModify: false })
+	.connect(db, {
+		useNewUrlParser: true,
+		useUnifiedTopology: true,
+		useFindAndModify: false,
+	})
 	.then(() => console.log("MongoDB successfully connected"))
 	.catch((err) => console.log(err));
 

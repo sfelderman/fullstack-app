@@ -1,10 +1,14 @@
 {
-  "name": "fullstack-app",
-  "version": "1.0.0",
-  "description": "A fullstack app to test out various technologies",
-  "repository": "https://github.com/sfelderman/fullstack-app.git",
-  "author": "Sean Felderman <sean.felderman@gmail.com>",
-  "license": "MIT",
-  "private": true,
-  "main": "index.js"
+	"name": "fullstack-app",
+	"version": "1.0.0",
+	"description": "A fullstack app to test out various technologies",
+	"repository": "https://github.com/sfelderman/fullstack-app.git",
+	"author": "Sean Felderman <sean.felderman@gmail.com>",
+	"license": "MIT",
+	"private": true,
+	"main": "index.js",
+	"devDependencies": {
+		"eslint-config-prettier": "^6.11.0",
+		"prettier": "^2.0.5"
+	}
 }
