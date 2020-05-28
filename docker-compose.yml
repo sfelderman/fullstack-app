@@ -13,3 +13,13 @@ services:
     working_dir: /root/server
     volumes:
       - ./server:/root/server:cached # <--- This will map ./server to /root/server inside the container.
+  app:
+    build: ./app
+    stdin_open: true # to prevent that weird build fail error
+    environment:
+      - PORT=3000
+    ports:
+      - 3000:3000
+    working_dir: /root/app
+    volumes:
+      - ./app:/root/app:cached
