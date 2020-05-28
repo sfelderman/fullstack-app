@@ -2,7 +2,7 @@ version: '3'
 services:
   server:
     build: ./server
-    command: sh -c "yarn install && yarn start"
+    # command: sh -c "yarn install && yarn start"
     environment:
       - PORT=8080
       - USERNAME=${USERNAME}

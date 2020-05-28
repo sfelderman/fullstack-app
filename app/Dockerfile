@@ -9,9 +9,8 @@ FROM node:10
 # install app dependencies
 COPY package.json ./
 COPY yarn.lock ./
-RUN yarn install
 
-EXPOSE 3000
+RUN yarn install
 
 # add app
 COPY . ./
