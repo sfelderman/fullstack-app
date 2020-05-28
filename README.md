@@ -6,43 +6,43 @@
 
 ## Checklist of things done
 
-- #### [x] Basic Rest
+- ### :white_check_mark: Basic Rest
 
   - Simple rest service with a couple basic endpoints CRUD. For the moment this is a todo
 
   - Endpoints?
 
-- #### [x] Basic Docker
+- ### :white_check_mark: Basic Docker
 
   - Simple docker container that can host the server and which requests can be made against
 
-- #### [x] Basic Database
+- ### :white_check_mark: Basic Database
 
   - Store some data that is slightly more complicated than what was initially created by the rest endpoints.
 
   - Endpoints now call against the database instead of against local data.
 
-- #### [x] Incredibly Basic Frontend
+- ### :white_check_mark: Incredibly Basic Frontend
 
   - Working create react app
 
-- #### [x] Set up Prettier
+- ### :white_check_mark: Set up Prettier
 
   - Basic prettier implementation.
 
-- #### [ ] Basic Viewing of mocked TODOS
+- ### Basic Viewing of mocked TODOS
 
   - view some TODOs in the app
 
-- #### [ ] Hookup viewing live TODOs
+- ### Hookup viewing live TODOs
 
   - The get endpoints
 
-- #### [ ] Hookup editing live TODOs
+- ### Hookup editing live TODOs
 
   - all the endpoints
 
-- #### [ ] Testing
+- ### Testing
 
   - basic testing coverage
   - can be expanded upon later
