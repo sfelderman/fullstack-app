@@ -8,3 +8,7 @@
 .checkbox {
   margin-right: 1rem;
 }
+
+.checkbox input {
+  width: 100%;
+}

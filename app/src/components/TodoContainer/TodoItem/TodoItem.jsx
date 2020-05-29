@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './TodoItem.css';
-import { useState } from 'react';
+import EditableText from '../../common/EditableText';
 
 const TodoItem = ({ _id, text, completed, updateTodo }) => {
   const toggleTodo = () => {
@@ -17,7 +17,7 @@ const TodoItem = ({ _id, text, completed, updateTodo }) => {
         <input type='checkbox' checked={completed} onChange={toggleTodo} />
       </div>
 
-      <div className='text'>{text}</div>
+      <EditableText>{text}</EditableText>
     </div>
   );
 };
