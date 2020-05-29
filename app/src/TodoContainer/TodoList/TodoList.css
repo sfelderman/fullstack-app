@@ -1,0 +1,14 @@
+.TodoList-header {
+  text-align: center;
+}
+
+.TodoList-no-todos {
+  text-align: center;
+}
+
+.TodoList-container {
+  display: flex;
+  /* justify-content: center; */
+  flex-direction: column;
+  /* align-items: center; */
+}
