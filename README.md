@@ -34,6 +34,10 @@
 
   - view some TODOs in the app
 
+- ### ESLINT setup
+
+  - Get it integrated and working with prettier
+
 - ### Hookup viewing live TODOs
 
   - The get endpoints
