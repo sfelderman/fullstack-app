@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './App.css';
 import TodoContainer from './TodoContainer';
 
-const todos = [
+const mockedTodos = [
   {
     _id: 111,
     text: 'first one',
@@ -15,10 +15,24 @@ const todos = [
   }
 ];
 
+let id = mockedTodos.length + 1;
+
 const App = () => {
+  const [todos, setTodos] = useState(mockedTodos);
+
+  function addTodo(text) {
+    const todo = {
+      _id: id++,
+      text,
+      completed: false
+    };
+
+    setTodos([todo, ...todos]);
+  }
+
   return (
     <div className='App' style={styles}>
-      <TodoContainer todos={todos} />
+      <TodoContainer addTodo={addTodo} todos={todos} />
     </div>
   );
 };

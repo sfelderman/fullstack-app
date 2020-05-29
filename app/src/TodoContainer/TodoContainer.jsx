@@ -3,11 +3,11 @@ import AddTodo from './AddTodo';
 import TodoList from './TodoList';
 import styles from './TodoContainer.css';
 
-const TodoContainer = ({ todos }) => {
+const TodoContainer = ({ todos, addTodo }) => {
   return (
     <div className='TodoContainer' style={styles}>
       <h1>TODOS</h1>
-      <AddTodo />
+      <AddTodo addTodo={addTodo} />
       <TodoList todos={todos} />
     </div>
   );
