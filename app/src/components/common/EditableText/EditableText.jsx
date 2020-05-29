@@ -1,7 +1,7 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
+import styles from './EditableText.css';
 
-const EditableText = ({ children, ...props }) => {
+const EditableText = ({ children, onSubmit, ...props }) => {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(children);
 
@@ -11,25 +11,35 @@ const EditableText = ({ children, ...props }) => {
 
   const handleSubmit = evt => {
     evt.preventDefault();
-    if (!value.trim().length) {
+    const val = value.trim();
+    if (!val.length) {
       console.warn('text must have length');
       return;
     }
-    setValue(value.trim());
+    setValue(val);
     setEditing(false);
+    onSubmit(val);
   };
 
-  if (editing) {
-    return (
-      <form onSubmit={handleSubmit}>
-        <input type='text' autoFocus value={value} onChange={handleChange} onBlur={handleSubmit} />
-      </form>
-    );
-  }
   return (
-    <div onDoubleClick={() => setEditing(true)} {...props}>
-      {value}
-    </div>
+    <span style={styles} className='EditableText'>
+      {editing ? (
+        <form className='EditableText-form' onSubmit={handleSubmit}>
+          <input
+            className='EditableText-input'
+            type='text'
+            autoFocus
+            value={value}
+            onChange={handleChange}
+            onBlur={handleSubmit}
+          />
+        </form>
+      ) : (
+        <div onDoubleClick={() => setEditing(true)} {...props}>
+          {value}
+        </div>
+      )}
+    </span>
   );
 };
 

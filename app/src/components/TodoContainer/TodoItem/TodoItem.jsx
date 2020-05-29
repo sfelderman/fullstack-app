@@ -11,13 +11,21 @@ const TodoItem = ({ _id, text, completed, updateTodo }) => {
     });
   };
 
+  const editText = text => {
+    updateTodo({
+      _id,
+      text,
+      completed
+    });
+  };
+
   return (
     <div className='TodoItem' style={styles}>
       <div className='checkbox'>
         <input type='checkbox' checked={completed} onChange={toggleTodo} />
       </div>
 
-      <EditableText>{text}</EditableText>
+      <EditableText onSubmit={editText}>{text}</EditableText>
     </div>
   );
 };
