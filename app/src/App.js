@@ -30,9 +30,22 @@ const App = () => {
     setTodos([todo, ...todos]);
   }
 
+  function updateTodo(todo) {
+    const newTodos = todos.reduce((arr, cur) => {
+      if (cur._id === todo._id) {
+        arr.push(todo);
+      } else {
+        arr.push(cur);
+      }
+
+      return arr;
+    }, []);
+    setTodos(newTodos);
+  }
+
   return (
     <div className='App' style={styles}>
-      <TodoContainer addTodo={addTodo} todos={todos} />
+      <TodoContainer updateTodo={updateTodo} addTodo={addTodo} todos={todos} />
     </div>
   );
 };

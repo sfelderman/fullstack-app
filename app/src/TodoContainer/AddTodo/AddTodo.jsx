@@ -15,6 +15,7 @@ const AddTodo = ({ addTodo }) => {
     addTodo(value);
     setText('');
   };
+
   return (
     <form className='AddTodo' style={styles} onSubmit={handleSubmit}>
       <input
