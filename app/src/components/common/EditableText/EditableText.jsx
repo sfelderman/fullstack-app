@@ -1,37 +1,48 @@
 import React, { useState } from 'react';
-import styles from './EditableText.css';
 
 const EditableText = ({ children, onSubmit, ...props }) => {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(children);
 
-  const handleChange = evt => {
-    setValue(evt.target.value);
-  };
+  function reset() {
+    setValue(children);
+    setEditing(false);
+  }
 
-  const handleSubmit = evt => {
+  function handleChange(evt) {
+    setValue(evt.target.value);
+  }
+
+  function handleSubmit(evt) {
     evt.preventDefault();
     const val = value.trim();
     if (!val.length) {
-      console.warn('text must have length');
+      console.warn('Input text must have length');
       return;
     }
     setValue(val);
     setEditing(false);
     onSubmit(val);
-  };
+  }
+
+  function handleKeyDown(evt) {
+    const code = evt.keyCode;
+    if (code === 13 || evt.key === 'Enter') return handleSubmit(evt); // enter
+    if (code === 27 || evt.key === 'Escape') return reset();
+  }
 
   return (
-    <span style={styles} className='EditableText'>
+    <span className='EditableText'>
       {editing ? (
-        <form className='EditableText-form' onSubmit={handleSubmit}>
-          <input
-            className='EditableText-input'
+        <form onSubmit={handleSubmit}>
+          <textarea
+            className='form-control'
             type='text'
             autoFocus
             value={value}
+            onKeyDown={handleKeyDown}
             onChange={handleChange}
-            onBlur={handleSubmit}
+            // onBlur={handleSubmit}
           />
         </form>
       ) : (

@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import styles from './App.css';
 import TodoContainer from './TodoContainer';
 
 const mockedTodos = [
@@ -44,7 +43,7 @@ const App = () => {
   }
 
   return (
-    <div className='App' style={styles}>
+    <div className='App container'>
       <TodoContainer updateTodo={updateTodo} addTodo={addTodo} todos={todos} />
     </div>
   );
