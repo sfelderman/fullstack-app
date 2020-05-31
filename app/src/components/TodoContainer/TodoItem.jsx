@@ -1,7 +1,7 @@
 import React from 'react';
 import EditableText from '../common/EditableText';
 
-const TodoItem = ({ _id, text, completed, updateTodo }) => {
+const TodoItem = ({ _id, text, completed, updateTodo, removeTodo }) => {
   const toggleTodo = () => {
     updateTodo({
       _id,
@@ -27,6 +27,11 @@ const TodoItem = ({ _id, text, completed, updateTodo }) => {
       </div>
       <div className='col'>
         <EditableText onSubmit={editText}>{text}</EditableText>
+      </div>
+      <div className='col-0'>
+        <button className='btn btn-outline-danger' onClick={() => removeTodo(_id)}>
+          X
+        </button>
       </div>
       <div className='col-2' />
     </React.Fragment>

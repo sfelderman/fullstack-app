@@ -30,7 +30,7 @@
 
   - Basic prettier implementation.
 
-- ### Basic Viewing of mocked TODOS
+- ### :white_check_mark: Basic Viewing of mocked TODOS
 
   - view some TODOs in the app
 
@@ -45,6 +45,10 @@
 - ### Hookup editing live TODOs
 
   - all the endpoints
+
+- ### Use Fetch hook
+
+  - could make custom use fetch hook
 
 - ### Testing
 

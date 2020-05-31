@@ -2,7 +2,7 @@ import React from 'react';
 import TodoList from './TodoList';
 import AddTodo from './AddTodo';
 
-const TodoContainer = ({ todos, addTodo, updateTodo }) => {
+const TodoContainer = ({ todos, addTodo, updateTodo, removeTodo }) => {
   return (
     <React.Fragment>
       <div className='row col'>
@@ -12,7 +12,7 @@ const TodoContainer = ({ todos, addTodo, updateTodo }) => {
         <AddTodo addTodo={addTodo} />
       </div>
       <div className='row'>
-        <TodoList updateTodo={updateTodo} todos={todos} />
+        <TodoList updateTodo={updateTodo} removeTodo={removeTodo} todos={todos} />
       </div>
     </React.Fragment>
   );
