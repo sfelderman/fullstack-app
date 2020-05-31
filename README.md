@@ -34,15 +34,11 @@
 
   - view some TODOs in the app
 
-- ### ESLINT setup
-
-  - Get it integrated and working with prettier
-
-- ### Hookup viewing live TODOs
+- ### :white_check_mark: Hookup viewing live TODOs
 
   - The get endpoints
 
-- ### Hookup editing live TODOs
+- ### :white_check_mark: Hookup editing live TODOs
 
   - all the endpoints
 
@@ -50,10 +46,16 @@
 
   - could make custom use fetch hook
 
+- ### Error Handling
+
 - ### Testing
 
   - basic testing coverage
   - can be expanded upon later
+
+  - ### ESLINT setup
+
+  - Get it integrated and working with prettier
 
 ## Testing
 
