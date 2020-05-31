@@ -39,10 +39,11 @@ const EditableText = ({ children, onSubmit, ...props }) => {
             className='form-control'
             type='text'
             autoFocus
+            onFocus={evt => (evt.target.selectionStart = evt.target.textLength)}
             value={value}
             onKeyDown={handleKeyDown}
             onChange={handleChange}
-            // onBlur={handleSubmit}
+            onBlur={handleSubmit}
           />
         </form>
       ) : (
