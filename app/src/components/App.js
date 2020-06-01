@@ -1,24 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import TodoContainer from './TodoContainer';
 
-const mockedTodos = [
-  {
-    _id: 111,
-    text: 'first one',
-    completed: false
-  },
-  {
-    _id: 345,
-    text: 'second one with a longer description',
-    completed: true
-  }
-];
+let id = 0;
 
-let id = mockedTodos.length + 1;
-
-const App = () => {
-  const [todos, setTodos] = useState([]);
-  const [loading, setLoading] = useState(true);
+const App = ({ initialTodos, initialLoading }) => {
+  const [todos, setTodos] = useState(initialTodos || []);
+  const [loading, setLoading] = useState(!initialTodos || initialLoading);
 
   useEffect(() => {
     const fetchData = async () => {
