@@ -7,73 +7,63 @@
 ## Checklist of things done
 
 - ### :white_check_mark: Basic Rest
-
-  - Simple rest service with a couple basic endpoints CRUD. For the moment this is a todo
-
-  - Endpoints?
-
 - ### :white_check_mark: Basic Docker
-
-  - Simple docker container that can host the server and which requests can be made against
-
 - ### :white_check_mark: Basic Database
-
-  - Store some data that is slightly more complicated than what was initially created by the rest endpoints.
-
-  - Endpoints now call against the database instead of against local data.
-
 - ### :white_check_mark: Incredibly Basic Frontend
-
-  - Working create react app
-
 - ### :white_check_mark: Set up Prettier
-
-  - Basic prettier implementation.
-
 - ### :white_check_mark: Basic Viewing of mocked TODOS
-
-  - view some TODOs in the app
-
 - ### :white_check_mark: Hookup viewing live TODOs
-
-  - The get endpoints
-
 - ### :white_check_mark: Hookup editing live TODOs
 
-  - all the endpoints
+- ### Basic Optimistic UI Layer
 
-- ### Use Fetch hook
-
-  - could make custom use fetch hook
+  - Should respond immediately with success state
+  - Should update any necessary info after success (\_id would need an update)
+  - Should report when an error occurs and roll back all changes
+    - how to preserve the data?
 
 - ### Error Handling
 
-- ### Testing
+  - report errors in console for all request
+  - consider a _Use Fetch hook_ to standardize this
 
-  - basic testing coverage
-  - can be expanded upon later
+- ### ServiceWorkers
 
-  - ### ESLINT setup
+  - intercept outgoing data and store it in cache or indexDB
+  - Update cache/db after response
+  - Full offline support?
+
+- ### ESLINT setup
 
   - Get it integrated and working with prettier
 
-## Testing
+- ### Progressive Web App
 
-- component library?
+  - mobile friendly
+  - service workers install on phone
+
+- ## Testing
+
+- mocked unit tests
+- ui tests - Perhaps look into some type of testing framework for hitting the mocked endpoints like cypress
 - storybook?
-- mocked data ui tests
 
-### Investigate Mocking for "Local" development
+- ### Investigate Mocking for "Local" development
 
-Perhaps look into some type of testing framework for hitting the mocked endpoints like cypress (or look into the DFP in a box :) )
+  - look into the DFP in a box
+  - fillable database
+  - proxy to watch incoming and out going traffic
+  - how to put the server code and small dataset inside of the container
 
-## Progressive Web App
+- ### TODO enhancements
+  - Due dates
+  - Push notifications
+    - upcoming due date
+    - notification on a date
 
-- mobile friendly
-- service workers and offline support
-  - might be something cool to look into for testing
+## Deployment
 
-## To Be Continued
+- deploy the front and backend on a server somewhere
+- doesn't have to be big
 
-- Proxying of request to create local data store
-- Act as middleware for local tests
+### Authentication

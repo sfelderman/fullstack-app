@@ -5,7 +5,9 @@ const TodoList = ({ todos, updateTodo, removeTodo }) => {
   return (
     <div className='container'>
       {todos && todos.length
-        ? todos.map(todo => <TodoItem {...todo} removeTodo={removeTodo} updateTodo={updateTodo} />)
+        ? todos.map(todo => (
+            <TodoItem key={todo._id} {...todo} removeTodo={removeTodo} updateTodo={updateTodo} />
+          ))
         : 'No Todos To Display'}
     </div>
   );
