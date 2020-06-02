@@ -6,7 +6,6 @@ let id = 0;
 
 const App = ({ initialTodos, initialLoading }) => {
   const [todos, setTodos] = useOptimisticState(initialTodos || []);
-  // const [todos, setTodos] = useOptimisticState(initialTodos || []);
   const [loading, setLoading] = useState(!initialTodos || initialLoading);
 
   useEffect(() => {
@@ -36,25 +35,18 @@ const App = ({ initialTodos, initialLoading }) => {
     );
   }
 
-  async function updateTodo(todo) {
-    const updatedTodo = await fetch(`/todo/${todo._id}`, {
-      method: 'put',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ ...todo })
-    }).then(res => res.json());
-
-    const newTodos = todos.reduce((arr, cur) => {
-      if (cur._id === todo._id) {
-        arr.push(updatedTodo);
-      } else {
-        arr.push(cur);
-      }
-
-      return arr;
-    }, []);
-    setTodos(newTodos);
+  async function updateTodo(updateTodo) {
+    setTodos(
+      fetch(`/todo/${updateTodo._id}`, {
+        method: 'put',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ ...updateTodo })
+      }).then(res => res.json()),
+      prevTodos => prevTodos.map(todo => (todo._id === updateTodo._id ? updateTodo : todo)),
+      (_, prevTodos) => [...prevTodos]
+    );
   }
 
   async function removeTodo(_id) {
@@ -63,7 +55,7 @@ const App = ({ initialTodos, initialLoading }) => {
         method: 'delete'
       }).then(res => res.json()),
       prevTodos => prevTodos.filter(todo => todo._id !== _id),
-      (deletedTOdo, oldTodos) => oldTodos
+      (_, oldTodos) => [...oldTodos]
     );
   }
 

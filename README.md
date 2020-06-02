@@ -15,14 +15,18 @@
 - ### :white_check_mark: Hookup viewing live TODOs
 - ### :white_check_mark: Hookup editing live TODOs
 
-- ### Basic Optimistic UI Layer
+- ### :white_check_mark: Basic Optimistic UI Layer
 
   - Should respond immediately with success state
   - Should update any necessary info after success (\_id would need an update)
+
+- ### Advanced Optimistic UI Layer
+
   - Should report when an error occurs and roll back all changes
-    - how to preserve the data?
-  - only allow one request at a time for a single action - toggleable
-    - could add many todos, should only be able to delete one
+  - how to preserve the data?
+  - allow throttling if needed
+    - collect all updates and send last state after X time
+    - Example: toggling the completed state
 
 - ### Error Handling
 

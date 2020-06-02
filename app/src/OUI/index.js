@@ -3,6 +3,12 @@ import React, { useState } from 'react';
 export function useOptimisticState(initialState) {
   const [state, setState] = useState(initialState);
 
+  /**
+   *
+   * @param {Function | Promise} request
+   * @param {Function | undefined} optimisticResponse (prevState)
+   * @param {Function | undefined} updateFunc (responseValue, prevState) will update the state with the response if no function is provided
+   */
   async function wrappedSetState(request, optimisticResponse, updateFunc) {
     // set the optimisticResponse based on the previous state
     // this should create a new state that is visually what should appear
@@ -12,20 +18,20 @@ export function useOptimisticState(initialState) {
       });
     }
 
-    let data;
+    let responseValue;
     // is already a promise
     if (typeof request.then === 'function') {
-      data = await request;
+      responseValue = await request;
     } else {
       // is a function
-      data = await request();
+      responseValue = await request();
     }
 
     // update the current state with the results of the real request
     // if there is an update function that need to happen pass the data and the  previous state
     // if there are no changes then just pass back the data
     setState(prevState => {
-      return updateFunc ? updateFunc(data, prevState) : data;
+      return updateFunc ? updateFunc(responseValue, prevState) : responseValue;
     });
   }
 
