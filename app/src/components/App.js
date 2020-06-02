@@ -21,7 +21,6 @@ const App = ({ initialTodos, initialLoading }) => {
   }, []);
 
   async function addTodo(text) {
-    // Enhancement: could add todo to local state then update once response is back
     const optimisticTodo = { text, completed: false, _id: id++ };
     setTodos(
       fetch('/todo', {
@@ -35,15 +34,6 @@ const App = ({ initialTodos, initialLoading }) => {
       (newTodo, oldTodos) =>
         oldTodos.map(todo => (todo._id === optimisticTodo._id ? newTodo : todo))
     );
-    // const newTodo = await fetch('/todo', {
-    //   method: 'post',
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: JSON.stringify({ text })
-    // }).then(res => res.json());
-    // debugger;
-    // setTodos([...todos, newTodo]);
   }
 
   async function updateTodo(todo) {
@@ -68,17 +58,13 @@ const App = ({ initialTodos, initialLoading }) => {
   }
 
   async function removeTodo(_id) {
-    const removedTodo = await fetch(`/todo/${_id}`, {
-      method: 'delete'
-    }).then(res => res.json());
-
-    const newTodos = todos.reduce((arr, cur) => {
-      if (cur._id !== _id) {
-        arr.push(cur);
-      }
-      return arr;
-    }, []);
-    setTodos(newTodos);
+    setTodos(
+      fetch(`/todo/${_id}`, {
+        method: 'delete'
+      }).then(res => res.json()),
+      prevTodos => prevTodos.filter(todo => todo._id !== _id),
+      (deletedTOdo, oldTodos) => oldTodos
+    );
   }
 
   return (
