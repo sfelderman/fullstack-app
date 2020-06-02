@@ -1,33 +1,59 @@
 import React, { useState, useEffect } from 'react';
 import TodoContainer from './TodoContainer';
+import { useOptimisticState } from '../OUI';
 
 let id = 0;
 
 const App = ({ initialTodos, initialLoading }) => {
-  const [todos, setTodos] = useState(initialTodos || []);
+  const [todos, setTodos] = useOptimisticState(initialTodos || []);
+  // const [todos, setTodos] = useOptimisticState(initialTodos || []);
   const [loading, setLoading] = useState(!initialTodos || initialLoading);
 
   useEffect(() => {
     const fetchData = async () => {
-      const data = await fetch('/todos').then(res => res.json());
-      setTodos(data);
+      setTodos(fetch('/todos').then(res => res.json()));
+      // const data = await fetch('/todos').then(res => res.json());
+      // debugger;
+      // setTodos(data);
+      // setTodos(fetch('/todos').then(res => res.json()));
       setLoading(false);
     };
     fetchData();
   }, []);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const data = await fetch('/todos').then(res => res.json());
+  //     debugger;
+  //     setTodos(data);
+  //     setLoading(false);
+  //   };
+  //   fetchData();
+  // }, []);
 
   async function addTodo(text) {
     // Enhancement: could add todo to local state then update once response is back
-
-    const newTodo = await fetch('/todo', {
-      method: 'post',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ text })
-    }).then(res => res.json());
-
-    setTodos([...todos, newTodo]);
+    const optimisticTodo = { text, completed: false, _id: id++ };
+    setTodos(
+      fetch('/todo', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text })
+      }).then(res => res.json()),
+      prevTodos => [...prevTodos, optimisticTodo],
+      (newTodo, oldTodos) =>
+        oldTodos.map(todo => (todo._id === optimisticTodo._id ? newTodo : todo))
+    );
+    // const newTodo = await fetch('/todo', {
+    //   method: 'post',
+    //   headers: {
+    //     'Content-Type': 'application/json'
+    //   },
+    //   body: JSON.stringify({ text })
+    // }).then(res => res.json());
+    // debugger;
+    // setTodos([...todos, newTodo]);
   }
 
   async function updateTodo(todo) {

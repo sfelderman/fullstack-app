@@ -21,6 +21,8 @@
   - Should update any necessary info after success (\_id would need an update)
   - Should report when an error occurs and roll back all changes
     - how to preserve the data?
+  - only allow one request at a time for a single action - toggleable
+    - could add many todos, should only be able to delete one
 
 - ### Error Handling
 
