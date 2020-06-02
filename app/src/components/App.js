@@ -11,24 +11,14 @@ const App = ({ initialTodos, initialLoading }) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setTodos(fetch('/todos').then(res => res.json()));
-      // const data = await fetch('/todos').then(res => res.json());
-      // debugger;
-      // setTodos(data);
-      // setTodos(fetch('/todos').then(res => res.json()));
-      setLoading(false);
+      setTodos(async () => {
+        const data = await fetch('/todos').then(res => res.json());
+        setLoading(false);
+        return data;
+      });
     };
     fetchData();
   }, []);
-  // useEffect(() => {
-  //   const fetchData = async () => {
-  //     const data = await fetch('/todos').then(res => res.json());
-  //     debugger;
-  //     setTodos(data);
-  //     setLoading(false);
-  //   };
-  //   fetchData();
-  // }, []);
 
   async function addTodo(text) {
     // Enhancement: could add todo to local state then update once response is back

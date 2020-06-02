@@ -11,8 +11,15 @@ export function useOptimisticState(initialState) {
         return optimisticResponse(prevState);
       });
     }
-    // wait for the response
-    const data = await request;
+
+    let data;
+    // is already a promise
+    if (typeof request.then === 'function') {
+      data = await request;
+    } else {
+      // is a function
+      data = await request();
+    }
 
     // update the current state with the results of the real request
     // if there is an update function that need to happen pass the data and the  previous state
