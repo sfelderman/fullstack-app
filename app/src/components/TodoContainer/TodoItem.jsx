@@ -19,7 +19,7 @@ const TodoItem = ({ _id, text, completed, updateTodo, removeTodo }) => {
   };
 
   return (
-    <div className='TodoItem row my-2' key={_id}>
+    <div className='TodoItem row my-2'>
       <div className='col-2' />
       <div className='col-auto'>
         {completed ? (
