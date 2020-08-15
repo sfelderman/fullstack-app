@@ -4,7 +4,7 @@
 
 `docker-compose up --build` to run
 
-## Checklist of things done
+## Checklist things done
 
 - ### :white_check_mark: Basic Rest
 - ### :white_check_mark: Basic Docker
@@ -19,6 +19,8 @@
 
   - Should respond immediately with success state
   - Should update any necessary info after success (\_id would need an update)
+
+## Checklist things TODO
 
 - ### Advanced Optimistic UI Layer
 
@@ -72,4 +74,63 @@
 - deploy the front and backend on a server somewhere
 - doesn't have to be big
 
-### Authentication
+# Rewrite
+
+## Create login
+
+## Create homepage
+
+- create `/todos` as current TODO app
+
+## Change DB to Firebase
+
+- move todos from mongo to firebase
+
+## Remove Optimistic UI Layer
+
+- remove OUI, enable persistence and offline
+
+# Finances
+
+## Structure
+
+- users (C)
+  - institutions (C)
+    - accessToken
+    - itemId
+    - institutionId
+    - institutionName
+  - transactions (C)
+    - id
+    - date
+    - name
+    - merchantName
+    - institutionId
+    - institutionName
+    - category
+    - pending
+    - amount
+  - ~~Categories (C)~~
+    - ~~Name~~
+  - meta: (M)
+    - total (updated with each added transaction)
+  - settings: (M)
+
+### Storage
+
+- background poll - sync data every X minutes/hours
+  - basically keep a running total as things continue
+- update different buckets
+  - \# of transactions
+  - total cost
+  - categories
+- time periods buckets
+  - day
+  - week
+  - month
+  - year (by month)
+  - yearly
+
+## Authentication
+
+## Hosting

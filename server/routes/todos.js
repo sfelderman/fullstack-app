@@ -74,7 +74,6 @@ router.get('/todo/:todoId', (req, res) => {
 router.put('/todo/:todoId', (req, res) => {
   if (!req.body) {
     res.status(400).json({
-      resolved: 'failure',
       message: 'req.body can not be empty.'
     });
   }
@@ -123,7 +122,7 @@ router.delete('/todo/:todoId', (req, res) => {
         return;
       }
       res.status(200).json({
-        message: 'Todo deleted successfully!',
+        message: 'Todo deleted successfully',
         todo
       });
     })
@@ -136,7 +135,6 @@ router.delete('/todo/:todoId', (req, res) => {
         return;
       }
       res.status(500).json({
-        resolved: 'failure',
         message: 'Error deleting todo with id: ' + req.params.todoId,
         error: err
       });
