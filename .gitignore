@@ -1,6 +1,4 @@
-
-basic-server/.config
-app-preact
+**/build
 
 # Logs
 logs
@@ -75,6 +73,7 @@ typings/
 # dotenv environment variables file
 .env
 .env.test
+.env.sever
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache

@@ -1,7 +1,8 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const bodyParser = require('body-parser');
-const todosRoute = require('./routes/todos');
+import express from 'express';
+import mongoose from 'mongoose';
+import bodyParser from 'body-parser';
+import todosRoute from './routes/todos';
+// "start": "nodemon --inspect-brk=9229 index.js",
 
 const app = express();
 // Bodyparser middleware
@@ -22,7 +23,7 @@ mongoose
     useFindAndModify: false
   })
   .then(() => console.log('MongoDB successfully connected'))
-  .catch(err => console.log(err));
+  .catch((err: unknown) => console.error(err));
 
 app.use('/', todosRoute);
 
