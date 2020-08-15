@@ -4,21 +4,19 @@
 
 `docker-compose up --build` to run
 
-## Checklist things done
+## Setup
 
-- ### :white_check_mark: Basic Rest
-- ### :white_check_mark: Basic Docker
-- ### :white_check_mark: Basic Database
-- ### :white_check_mark: Incredibly Basic Frontend
-- ### :white_check_mark: Set up Prettier
-- ### :white_check_mark: Basic Viewing of mocked TODOS
-- ### :white_check_mark: Hookup viewing live TODOs
-- ### :white_check_mark: Hookup editing live TODOs
-
-- ### :white_check_mark: Basic Optimistic UI Layer
-
-  - Should respond immediately with success state
-  - Should update any necessary info after success (\_id would need an update)
+- ESLINT setup
+- Prettier setup
+- Typescript setup
+- homescreen with routing
+- Login / register
+  - passport
+  - jwt, bycrypt
+  - validators
+- hookup to plaid
+- pull transactions
+- save transactions
 
 ## Checklist things TODO
 
@@ -40,10 +38,6 @@
   - intercept outgoing data and store it in cache or indexDB
   - Update cache/db after response
   - Full offline support?
-
-- ### ESLINT setup
-
-  - Get it integrated and working with prettier
 
 - ### Progressive Web App
 
@@ -134,3 +128,19 @@
 ## Authentication
 
 ## Hosting
+
+## Checklist things done
+
+- ### :white_check_mark: Basic Rest
+- ### :white_check_mark: Basic Docker
+- ### :white_check_mark: Basic Database
+- ### :white_check_mark: Incredibly Basic Frontend
+- ### :white_check_mark: Set up Prettier
+- ### :white_check_mark: Basic Viewing of mocked TODOS
+- ### :white_check_mark: Hookup viewing live TODOs
+- ### :white_check_mark: Hookup editing live TODOs
+
+- ### :white_check_mark: Basic Optimistic UI Layer
+
+  - Should respond immediately with success state
+  - Should update any necessary info after success (\_id would need an update)
