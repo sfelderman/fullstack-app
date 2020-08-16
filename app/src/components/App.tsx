@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import TodoContainer from './TodoContainer';
 import { useOptimisticState } from '../OUI';
-
 let id = 0;
 
-const App = ({ initialTodos, initialLoading }) => {
-  const [todos, setTodos] = useOptimisticState(initialTodos || []);
-  const [loading, setLoading] = useState(!initialTodos || initialLoading);
+const App = () => {
+  const [todos, setTodos] = useOptimisticState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,7 +18,7 @@ const App = ({ initialTodos, initialLoading }) => {
     fetchData();
   }, []);
 
-  async function addTodo(text) {
+  async function addTodo(text: any) {
     const optimisticTodo = { text, completed: false, _id: id++ };
     setTodos(
       fetch('/todo', {
@@ -29,13 +28,13 @@ const App = ({ initialTodos, initialLoading }) => {
         },
         body: JSON.stringify({ text })
       }).then(res => res.json()),
-      prevTodos => [...prevTodos, optimisticTodo],
-      (newTodo, oldTodos) =>
-        oldTodos.map(todo => (todo._id === optimisticTodo._id ? newTodo : todo))
+      (prevTodos: any) => [...prevTodos, optimisticTodo],
+      (newTodo: any, oldTodos: any[]) =>
+        oldTodos.map((todo: { _id: number }) => (todo._id === optimisticTodo._id ? newTodo : todo))
     );
   }
 
-  async function updateTodo(updateTodo) {
+  async function updateTodo(updateTodo: { _id: any }) {
     setTodos(
       fetch(`/todo/${updateTodo._id}`, {
         method: 'put',
@@ -44,18 +43,19 @@ const App = ({ initialTodos, initialLoading }) => {
         },
         body: JSON.stringify({ ...updateTodo })
       }).then(res => res.json()),
-      prevTodos => prevTodos.map(todo => (todo._id === updateTodo._id ? updateTodo : todo)),
-      (_, prevTodos) => [...prevTodos]
+      (prevTodos: any[]) =>
+        prevTodos.map((todo: { _id: any }) => (todo._id === updateTodo._id ? updateTodo : todo)),
+      (_: any, prevTodos: any) => [...prevTodos]
     );
   }
 
-  async function removeTodo(_id) {
+  async function removeTodo(_id: any) {
     setTodos(
       fetch(`/todo/${_id}`, {
         method: 'delete'
       }).then(res => res.json()),
-      prevTodos => prevTodos.filter(todo => todo._id !== _id),
-      (_, oldTodos) => [...oldTodos]
+      (prevTodos: any[]) => prevTodos.filter((todo: { _id: any }) => todo._id !== _id),
+      (_: any, oldTodos: any) => [...oldTodos]
     );
   }
 
