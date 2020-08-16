@@ -30,7 +30,7 @@ todoRouter.get('/todos', async (req, res) => {
     const todos = await Todo.find({ ...req.params });
     res.status(200).json(todos);
   } catch (err) {
-    res.stats(500).json({
+    res.status(500).json({
       message: 'Any error occurred while retrieving Todos.',
       error: err
     });
@@ -97,6 +97,7 @@ todoRouter.delete('/todo/:todoId', async (req, res) => {
   const todoId = req.params.todoId;
   try {
     const todo = await Todo.findByIdAndRemove(todoId); // Returns the updated document.
+
     if (!todo) {
       return res.status(404).json({
         message: 'Todo not found with id: ' + todoId
