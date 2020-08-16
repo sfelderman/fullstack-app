@@ -68,6 +68,8 @@ todoRouter.put('/todo/:todoId', async (req, res) => {
       message: 'req.body can not be empty.'
     });
   }
+
+  // FIXME params vs body?
   const todoId = req.params.todoId;
 
   try {

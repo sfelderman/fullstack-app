@@ -11,11 +11,13 @@ const TodoSchema = new Schema({
   }
 });
 
-export interface ITodo extends Document {
+export interface Todo {
   text: string;
   completed: boolean;
 }
 
-const Todo = model<ITodo>('todo', TodoSchema);
+export interface ITodoDocument extends Todo, Document {}
+
+const Todo = model<ITodoDocument>('todo', TodoSchema);
 
 export default Todo;
