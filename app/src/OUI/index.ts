@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-type FuncPromise<VAL> = () => Promise<VAL>;
-type FuncOrPromise<VAL, FULL> = FuncPromise<FULL> | Promise<VAL>;
+type FuncWillReturnPromise<VAL> = () => Promise<VAL>;
+type FuncOrPromise<VAL, FULL> = FuncWillReturnPromise<FULL> | Promise<VAL>;
 
 function isPromise<VAL, FULL>(prom: FuncOrPromise<VAL, FULL>): prom is Promise<VAL> {
   return (prom as Promise<VAL>).then !== undefined;
@@ -10,18 +10,11 @@ function isPromise<VAL, FULL>(prom: FuncOrPromise<VAL, FULL>): prom is Promise<V
 export function useOptimisticState<STATE>(initialState: STATE) {
   const [state, setState] = useState(initialState);
 
-  // /**
-  //  *
-  //  * @param {Function | Promise} request
-  //  * @param {Function | undefined} optimisticResponse (prevState)
-  //  * @param {Function | undefined} updateFunc (responseValue, prevState) will update the state with the response if no function is provided
-  //  */
   async function wrappedSetState<VAL>(
     request: FuncOrPromise<VAL, STATE>,
     optimisticResponse?: (input: STATE) => STATE,
     updateFunc?: (resVal: VAL, prevState: STATE) => STATE
   ) {
-    //optimisticResponse, updateFunc) {
     // set the optimisticResponse based on the previous state
     // this should create a new state that is visually what should appear
     if (optimisticResponse) {
@@ -58,35 +51,5 @@ export function useOptimisticState<STATE>(initialState: STATE) {
     }
   }
 
-  return [state, wrappedSetState] as const;
+  return [state, wrappedSetState, setState] as const;
 }
-
-/** This version doesn't handle multiple adds in a row
-  export function useOptimisticState(initialState) {
-  const [state, setState] = useState(initialState);
-
-  async function updateFunc(request, optimisticResponse, parser) {
-    const savedStateBeforeAction = state;
-    let expectedState = state;
-    if (optimisticResponse) {
-      setState((prevState, props) => {
-        const optimisticValue = optimisticResponse(prevState);
-        expectedState = optimisticValue;
-        return optimisticValue;
-      });
-    }
-    const data = await request;
-    console.log(data, savedStateBeforeAction);
-    // const parsedData = parser ? parser(data, savedStateBeforeAction) : data;
-    // setState(parsedData);
-    setState((prevState, props) => {
-      console.log('savedStateBeforeAction', savedStateBeforeAction);
-      console.log('expectedState', expectedState);
-      console.log('prevState', prevState);
-      return parser ? parser(data, savedStateBeforeAction) : data;
-    });
-  }
-
-  return [state, updateFunc];
-}
- */
