@@ -6,7 +6,7 @@ import { Todo } from '../types/Todo';
 let id = 0;
 
 const App = () => {
-  const [todos, setTodos] = useOptimisticState([]);
+  const [todos, setTodos] = useOptimisticState([] as Todo[]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -20,21 +20,22 @@ const App = () => {
     fetchData();
   }, []);
 
-  // async function addTodo(text: any) {
-  //   const optimisticTodo = { text, completed: false, _id: id++ };
-  //   setTodos(
-  //     fetch('/todo', {
-  //       method: 'post',
-  //       headers: {
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: JSON.stringify({ text })
-  //     }).then(res => res.json()),
-  //     (prevTodos: any) => [...prevTodos, optimisticTodo],
-  //     (newTodo: any, oldTodos: any[]) =>
-  //       oldTodos.map((todo: { _id: number }) => (todo._id === optimisticTodo._id ? newTodo : todo))
-  //   );
-  // }
+  async function addTodo(text: string) {
+    const optimisticTodo = { text, completed: false, _id: id++ } as Todo;
+
+    setTodos<Todo>(
+      fetch('/todo', {
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ text })
+      }).then(res => res.json()),
+      prevTodos => [...prevTodos, optimisticTodo],
+      (newTodo, oldTodos) =>
+        oldTodos.map(todo => (todo._id === optimisticTodo._id ? newTodo : todo))
+    );
+  }
 
   return (
     <div className='App container'>
@@ -44,8 +45,7 @@ const App = () => {
         <TodoContainer
           updateTodo={() => {}}
           removeTodo={() => {}}
-          addTodo={() => {}}
-          // addTodo={addTodo}
+          addTodo={addTodo}
           todos={todos}
         />
       )}

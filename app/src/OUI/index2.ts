@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
-type RequestPromise<T> = () => Promise<T>;
-type RequestorPromise<T> = RequestPromise<T> | Promise<T>;
+type FuncPromise<VAL> = () => Promise<VAL>;
+type FuncOrPromise<VAL, FULL> = FuncPromise<FULL> | Promise<VAL>;
 
-function isPromise<T>(prom: RequestorPromise<T>): prom is Promise<T> {
-  return (prom as Promise<T>).then !== undefined;
+function isPromise<VAL, FULL>(prom: FuncOrPromise<VAL, FULL>): prom is Promise<VAL> {
+  return (prom as Promise<VAL>).then !== undefined;
 }
 
-export function useOptimisticState<I>(initialState: I) {
+export function useOptimisticState<STATE>(initialState: STATE) {
   const [state, setState] = useState(initialState);
 
   // /**
@@ -16,10 +16,10 @@ export function useOptimisticState<I>(initialState: I) {
   //  * @param {Function | undefined} optimisticResponse (prevState)
   //  * @param {Function | undefined} updateFunc (responseValue, prevState) will update the state with the response if no function is provided
   //  */
-  async function wrappedSetState<T>(
-    request: RequestorPromise<T>,
-    optimisticResponse?: (input: I) => I,
-    updateFunc?: (resVal: T, prevState: I) => I
+  async function wrappedSetState<VAL>(
+    request: FuncOrPromise<VAL, STATE>,
+    optimisticResponse?: (input: STATE) => STATE,
+    updateFunc?: (resVal: VAL, prevState: STATE) => STATE
   ) {
     //optimisticResponse, updateFunc) {
     // set the optimisticResponse based on the previous state
@@ -30,24 +30,32 @@ export function useOptimisticState<I>(initialState: I) {
       });
     }
 
-    let responseValue: T;
+    let responseVal: VAL;
+    let responseState;
+
     // is already a promise
     if (isPromise(request)) {
-      responseValue = await request;
+      responseVal = (await request) as VAL;
     } else {
       // is a function
-      responseValue = await request();
+      responseState = (await request()) as STATE;
     }
 
     //   // update the current state with the results of the real request
     //   // if there is an update function that need to happen pass the data and the  previous state
     //   // if there are no changes then just pass back the data
-    setState(
-      (prevState: I): I => {
-        return updateFunc ? updateFunc(responseValue, prevState) : prevState;
-        // return updateFunc ? updateFunc(responseValue, prevState) : responseValue;
-      }
-    );
+    if (updateFunc) {
+      setState(
+        (prevState: STATE): STATE => {
+          return updateFunc(responseVal, prevState);
+        }
+      );
+    } else if (responseState) {
+      setState(responseState);
+    } else {
+      // TODO this might mean I should make two functions
+      throw new Error('Function invoked with invalid combination');
+    }
   }
 
   return [state, wrappedSetState] as const;
