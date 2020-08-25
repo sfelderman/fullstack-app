@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 
 type FuncWillReturnPromise<VAL> = () => Promise<VAL>;
 type FuncOrPromise<VAL, FULL> = FuncWillReturnPromise<FULL> | Promise<VAL>;
@@ -53,6 +53,7 @@ function useOptimisticState<STATE>(initialState: STATE) {
         }
       );
     } else if (responseState) {
+      console.log('using set state version');
       debugger;
       setState(responseState);
     } else {
