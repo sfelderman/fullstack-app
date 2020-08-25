@@ -1,8 +1,17 @@
 import React from 'react';
 import TodoList from './TodoList';
 import AddTodo from './AddTodo';
+import { Todo } from '../../types/Todo';
+import { AddTodoAction, UpdateTodoAction, RemoveTodoAction } from '../../actions/todoActions';
 
-const TodoContainer = ({ todos, addTodo, updateTodo, removeTodo }) => {
+type TotoContainer = {
+  todos: Todo[];
+  addTodo: AddTodoAction;
+  updateTodo: UpdateTodoAction;
+  removeTodo: RemoveTodoAction;
+};
+
+const TodoContainer = ({ todos, addTodo, updateTodo, removeTodo }: TotoContainer) => {
   return (
     <React.Fragment>
       <div className='row col'>

@@ -1,5 +1,7 @@
+import { Key } from 'react';
+
 export interface Todo {
-  _id: string | number;
+  _id: Key;
   text: string;
   completed: boolean;
 }

@@ -1,13 +1,18 @@
 import { Todo } from '../types/Todo';
 import useOptimisticState from '../OUI';
 
+export type LoadInitialTodosAction = (callback: () => void) => Promise<void>;
+export type AddTodoAction = (text: string) => void;
+export type UpdateTodoAction = (updateTodo: Todo) => void;
+export type RemoveTodoAction = (_id: number | string) => void;
+
 let id = 0;
 
 const useTodoActions = () => {
   const [todos, setTodos, setTodosAdvanced] = useOptimisticState<Todo[]>([]);
 
   const loadInitialTodos = async (callback: () => void) => {
-    const initialTodos = await fetch('/todos').then(res => res.json());
+    const initialTodos = (await fetch('/todos').then(res => res.json())) as Todo[];
     setTodos(initialTodos);
     callback();
   };
