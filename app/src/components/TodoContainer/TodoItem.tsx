@@ -1,7 +1,16 @@
-import React from 'react';
-import EditableText from '../common/EditableText';
+import React, { Key } from 'react';
+import { EditableText } from '../common';
+import { UpdateTodoAction, RemoveTodoAction } from '../../actions/todoActions';
 
-const TodoItem = ({ _id, text, completed, updateTodo, removeTodo }) => {
+type TodoItem = {
+  _id: Key;
+  text: string;
+  completed: boolean;
+  updateTodo: UpdateTodoAction;
+  removeTodo: RemoveTodoAction;
+};
+
+const TodoItem = ({ _id, text, completed, updateTodo, removeTodo }: TodoItem) => {
   const toggleTodo = () => {
     updateTodo({
       _id,
@@ -10,7 +19,7 @@ const TodoItem = ({ _id, text, completed, updateTodo, removeTodo }) => {
     });
   };
 
-  const editText = text => {
+  const editText = (text: string) => {
     updateTodo({
       _id,
       text,

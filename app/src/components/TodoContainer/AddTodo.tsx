@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
+import { AddTodoAction } from '../../actions/todoActions';
 
-const AddTodo = ({ addTodo }) => {
+type AddTodo = {
+  addTodo: AddTodoAction;
+};
+
+const AddTodo = ({ addTodo }: AddTodo) => {
   const [text, setText] = useState('');
 
-  const handleSubmit = evt => {
+  const handleSubmit = (evt: React.FormEvent) => {
     evt.preventDefault();
 
     const value = text.trim();

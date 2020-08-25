@@ -4,21 +4,21 @@
 
 `docker-compose up --build` to run
 
-## Checklist of things done
+## Setup
 
-- ### :white_check_mark: Basic Rest
-- ### :white_check_mark: Basic Docker
-- ### :white_check_mark: Basic Database
-- ### :white_check_mark: Incredibly Basic Frontend
-- ### :white_check_mark: Set up Prettier
-- ### :white_check_mark: Basic Viewing of mocked TODOS
-- ### :white_check_mark: Hookup viewing live TODOs
-- ### :white_check_mark: Hookup editing live TODOs
+- ESLINT setup
+- Prettier setup
+- Typescript setup
+- homescreen with routing
+- Login / register
+  - passport
+  - jwt, bycrypt
+  - validators
+- hookup to plaid
+- pull transactions
+- save transactions
 
-- ### :white_check_mark: Basic Optimistic UI Layer
-
-  - Should respond immediately with success state
-  - Should update any necessary info after success (\_id would need an update)
+## Checklist things TODO
 
 - ### Advanced Optimistic UI Layer
 
@@ -38,10 +38,6 @@
   - intercept outgoing data and store it in cache or indexDB
   - Update cache/db after response
   - Full offline support?
-
-- ### ESLINT setup
-
-  - Get it integrated and working with prettier
 
 - ### Progressive Web App
 
@@ -72,4 +68,79 @@
 - deploy the front and backend on a server somewhere
 - doesn't have to be big
 
-### Authentication
+# Rewrite
+
+## Create login
+
+## Create homepage
+
+- create `/todos` as current TODO app
+
+## Change DB to Firebase
+
+- move todos from mongo to firebase
+
+## Remove Optimistic UI Layer
+
+- remove OUI, enable persistence and offline
+
+# Finances
+
+## Structure
+
+- users (C)
+  - institutions (C)
+    - accessToken
+    - itemId
+    - institutionId
+    - institutionName
+  - transactions (C)
+    - id
+    - date
+    - name
+    - merchantName
+    - institutionId
+    - institutionName
+    - category
+    - pending
+    - amount
+  - ~~Categories (C)~~
+    - ~~Name~~
+  - meta: (M)
+    - total (updated with each added transaction)
+  - settings: (M)
+
+### Storage
+
+- background poll - sync data every X minutes/hours
+  - basically keep a running total as things continue
+- update different buckets
+  - \# of transactions
+  - total cost
+  - categories
+- time periods buckets
+  - day
+  - week
+  - month
+  - year (by month)
+  - yearly
+
+## Authentication
+
+## Hosting
+
+## Checklist things done
+
+- ### :white_check_mark: Basic Rest
+- ### :white_check_mark: Basic Docker
+- ### :white_check_mark: Basic Database
+- ### :white_check_mark: Incredibly Basic Frontend
+- ### :white_check_mark: Set up Prettier
+- ### :white_check_mark: Basic Viewing of mocked TODOS
+- ### :white_check_mark: Hookup viewing live TODOs
+- ### :white_check_mark: Hookup editing live TODOs
+
+- ### :white_check_mark: Basic Optimistic UI Layer
+
+  - Should respond immediately with success state
+  - Should update any necessary info after success (\_id would need an update)

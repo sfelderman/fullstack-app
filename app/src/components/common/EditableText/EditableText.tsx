@@ -1,6 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, KeyboardEvent } from 'react';
 
-const EditableText = ({ children, onSubmit, ...props }) => {
+type EditableText = {
+  children: string;
+  onSubmit: (evt: any) => void;
+};
+
+const EditableText = ({ children, onSubmit, ...props }: EditableText) => {
   const [editing, setEditing] = useState(false);
   const [value, setValue] = useState(children);
 
@@ -9,11 +14,11 @@ const EditableText = ({ children, onSubmit, ...props }) => {
     setEditing(false);
   }
 
-  function handleChange(evt) {
-    setValue(evt.target.value);
+  function handleChange(evt: React.FormEvent) {
+    setValue((evt.target as HTMLTextAreaElement).value);
   }
 
-  function handleSubmit(evt) {
+  function handleSubmit(evt: React.FormEvent) {
     evt.preventDefault();
     const val = value.trim();
     if (!val.length) {
@@ -25,7 +30,7 @@ const EditableText = ({ children, onSubmit, ...props }) => {
     onSubmit(val);
   }
 
-  function handleKeyDown(evt) {
+  function handleKeyDown(evt: KeyboardEvent) {
     const code = evt.keyCode;
     if (code === 13 || evt.key === 'Enter') return handleSubmit(evt); // enter
     if (code === 27 || evt.key === 'Escape') return reset();
@@ -37,7 +42,6 @@ const EditableText = ({ children, onSubmit, ...props }) => {
         <form onSubmit={handleSubmit}>
           <textarea
             className='form-control'
-            type='text'
             autoFocus
             onFocus={evt => (evt.target.selectionStart = evt.target.textLength)}
             value={value}
