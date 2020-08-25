@@ -1,7 +1,9 @@
 import React from 'react';
-import '../styles/Spinner.css';
+import './Spinner.css';
 
-const Spinner = ({ message, children }) => (
+type Spinner = { message: string; children?: JSX.Element };
+
+const Spinner = ({ message, children }: { message: string; children?: JSX.Element }) => (
   <div className='loading-container'>
     <div className='loader-container d-flex justify-content-center'>
       <div className='loader'></div>

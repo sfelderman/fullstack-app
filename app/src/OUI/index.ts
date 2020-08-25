@@ -7,13 +7,22 @@ function isPromise<VAL, FULL>(prom: FuncOrPromise<VAL, FULL>): prom is Promise<V
   return (prom as Promise<VAL>).then !== undefined;
 }
 
-export function useOptimisticState<STATE>(initialState: STATE) {
+type OptResponse<STATE> = (input: STATE) => STATE;
+type UpdateFunc<VAL, STATE> = (resVal: VAL, prevState: STATE) => STATE;
+
+export type OUISetState<STATE> = <VAL>(
+  request: FuncOrPromise<VAL, STATE>,
+  optimisticResponse?: OptResponse<STATE> | undefined,
+  updateFunc?: UpdateFunc<VAL, STATE> | undefined
+) => Promise<void>;
+
+function useOptimisticState<STATE>(initialState: STATE) {
   const [state, setState] = useState(initialState);
 
   async function wrappedSetState<VAL>(
     request: FuncOrPromise<VAL, STATE>,
-    optimisticResponse?: (input: STATE) => STATE,
-    updateFunc?: (resVal: VAL, prevState: STATE) => STATE
+    optimisticResponse?: OptResponse<STATE>,
+    updateFunc?: UpdateFunc<VAL, STATE>
   ) {
     // set the optimisticResponse based on the previous state
     // this should create a new state that is visually what should appear
@@ -44,6 +53,7 @@ export function useOptimisticState<STATE>(initialState: STATE) {
         }
       );
     } else if (responseState) {
+      debugger;
       setState(responseState);
     } else {
       // TODO this might mean I should make two functions
@@ -51,5 +61,6 @@ export function useOptimisticState<STATE>(initialState: STATE) {
     }
   }
 
-  return [state, wrappedSetState, setState] as const;
+  return [state, setState, wrappedSetState] as const;
 }
+export default useOptimisticState;

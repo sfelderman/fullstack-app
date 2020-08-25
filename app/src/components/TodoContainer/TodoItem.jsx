@@ -1,5 +1,5 @@
 import React from 'react';
-import EditableText from '../common/EditableText';
+import { EditableText } from '../common';
 
 const TodoItem = ({ _id, text, completed, updateTodo, removeTodo }) => {
   const toggleTodo = () => {
