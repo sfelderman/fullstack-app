@@ -3,7 +3,7 @@ import TodoContainer from './TodoContainer';
 import useTodoActions from '../actions/todoActions';
 import { Spinner } from './common';
 
-const App = () => {
+const Homepage = () => {
   const { todos, loadInitialTodos, addTodo, updateTodo, removeTodo } = useTodoActions();
   const [loading, setLoading] = useState(true);
 
@@ -29,4 +29,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Homepage;
