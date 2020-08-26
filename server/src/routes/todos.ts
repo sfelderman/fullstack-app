@@ -1,7 +1,7 @@
-import express from 'express';
+import { Router } from 'express';
 import Todo from '../models/Todo';
 
-const todoRouter = express.Router();
+const todoRouter = Router();
 
 // Create Endpoint
 todoRouter.post('/todo', async (req, res) => {
