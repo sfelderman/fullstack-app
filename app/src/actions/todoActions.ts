@@ -12,7 +12,7 @@ const useTodoActions = () => {
   const [todos, setTodos, setTodosAdvanced] = useOptimisticState<Todo[]>([]);
 
   const loadInitialTodos = async (callback: () => void) => {
-    const initialTodos = (await fetch('/todos').then(res => res.json())) as Todo[];
+    const initialTodos = (await fetch('/api/todos').then(res => res.json())) as Todo[];
     setTodos(initialTodos);
     callback();
   };
@@ -21,7 +21,7 @@ const useTodoActions = () => {
     const optimisticTodo = { text, completed: false, _id: id++ } as Todo;
 
     setTodosAdvanced<Todo>(
-      fetch('/todo', {
+      fetch('/api/todo', {
         method: 'post',
         headers: {
           'Content-Type': 'application/json'
@@ -36,7 +36,7 @@ const useTodoActions = () => {
 
   const updateTodo = (updateTodo: Todo) => {
     setTodosAdvanced<Todo>(
-      fetch(`/todo/${updateTodo._id}`, {
+      fetch(`/api/todo/${updateTodo._id}`, {
         method: 'put',
         headers: {
           'Content-Type': 'application/json'
@@ -50,7 +50,7 @@ const useTodoActions = () => {
 
   const removeTodo = (_id: number | string) => {
     setTodosAdvanced(
-      fetch(`/todo/${_id}`, {
+      fetch(`/api/todo/${_id}`, {
         method: 'delete'
       }).then(res => res.json()),
       prevTodos => prevTodos.filter(todo => todo._id !== _id),
