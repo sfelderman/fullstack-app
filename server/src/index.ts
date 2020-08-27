@@ -3,6 +3,9 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import todosRoute from './routes/todos';
 import usersRoute from './routes/users';
+import dotenv from 'dotenv';
+
+dotenv.config();
 // "start": "nodemon --inspect-brk=9229 index.js",
 
 const app = express();
