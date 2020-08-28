@@ -1,4 +1,4 @@
-import { isEmptyObj, isEmptyStr, checkEmail, checkPassword } from './commonValidation';
+import { isEmptyObj, checkEmail, checkPassword } from './commonValidation';
 import { ObjectT } from '../types/common';
 
 type LoginInput = {
@@ -21,7 +21,7 @@ const isLoginInput = (input?: LoginInput): input is LoginInput => {
   return !isEmptyObj(input);
 };
 
-const validateLogin = (input?: LoginInput): LoginResponse => {
+const validateLoginInput = (input?: LoginInput): LoginResponse => {
   const errors: ObjectT = {};
 
   if (!isLoginInput(input)) {
@@ -40,4 +40,4 @@ const validateLogin = (input?: LoginInput): LoginResponse => {
   };
 };
 
-export default validateLogin;
+export default validateLoginInput;

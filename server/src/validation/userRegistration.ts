@@ -23,7 +23,7 @@ const isRegistrationInput = (input?: RegistrationInput): input is RegistrationIn
   return !isEmptyObj(input);
 };
 
-const validateRegistration = (reqBody?: RegistrationInput): RegistrationResponse => {
+const validateRegistrationInput = (reqBody?: RegistrationInput): RegistrationResponse => {
   const errors: ObjectT = {};
 
   if (!isRegistrationInput(reqBody)) {
@@ -48,4 +48,4 @@ const checkUsername = (username: string, errors: RegistrationErrors): void => {
   if (isEmptyStr(username)) errors.username = "Can't be empty";
 };
 
-export default validateRegistration;
+export default validateRegistrationInput;
