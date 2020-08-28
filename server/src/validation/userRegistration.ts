@@ -30,7 +30,7 @@ const isRegistrationInput = (input?: RegistrationInput): input is RegistrationIn
   return !isEmptyObj(input);
 };
 
-export const validateRegistration = (reqBody?: RegistrationInput): RegistrationResponse => {
+const validateRegistration = (reqBody?: RegistrationInput): RegistrationResponse => {
   const errors: ObjectT = {};
 
   if (!isRegistrationInput(reqBody)) {
@@ -63,3 +63,5 @@ const checkEmail = (email: string, errors: RegistrationErrors): void => {
 const checkPassword = (password: string, errors: RegistrationErrors): void => {
   if (isEmptyStr(password)) errors.password = "Can't be empty";
 };
+
+export default validateRegistration;

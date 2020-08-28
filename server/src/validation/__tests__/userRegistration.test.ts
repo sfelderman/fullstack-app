@@ -1,5 +1,6 @@
-import { validateRegistration } from '../userValidator';
-describe('userValidator', () => {
+import validateRegistration from '../userRegistration';
+
+describe('validateRegistration', () => {
   const validInput = { username: 'test-name', email: 'test@email', password: 'test-password' };
 
   it('returns empty errors and isValid when passed valid input', () => {
@@ -15,6 +16,7 @@ describe('userValidator', () => {
     expect(res.errors).toEqual({ body: expect.any(String) });
     expect(res.isValid).toEqual(false);
   });
+
   describe('Validate username', () => {
     it('returns an error when the username is empty', () => {
       const res = validateRegistration({ ...validInput, username: undefined });

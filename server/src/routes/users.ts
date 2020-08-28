@@ -9,7 +9,7 @@ import { Router } from 'express';
 
 // Load User model
 import User from '../models/User';
-import { validateRegistration } from '../validation/userValidator';
+import validateRegistration from '../validation/userRegistration';
 
 const userRouter = Router();
 
