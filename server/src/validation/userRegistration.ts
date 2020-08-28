@@ -1,4 +1,5 @@
 import { ObjectT } from '../types/common';
+import { isEmptyObj, isEmptyStr } from './commonValidation';
 
 type RegistrationInput = {
   username?: string;
@@ -16,14 +17,6 @@ type RegistrationErrors = {
 type RegistrationResponse = {
   errors: RegistrationErrors;
   isValid: boolean;
-};
-
-const isEmptyObj = (inputObj?: ObjectT) => {
-  return !inputObj || Object.keys(inputObj).length == 0;
-};
-
-const isEmptyStr = (inputStr?: string) => {
-  return !inputStr || inputStr.length == 0;
 };
 
 const isRegistrationInput = (input?: RegistrationInput): input is RegistrationInput => {
