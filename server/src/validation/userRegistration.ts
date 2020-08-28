@@ -1,5 +1,5 @@
 import { ObjectT } from '../types/common';
-import { isEmptyObj, isEmptyStr } from './commonValidation';
+import { isEmptyObj, isEmptyStr, checkEmail, checkPassword } from './commonValidation';
 
 type RegistrationInput = {
   username?: string;
@@ -46,15 +46,6 @@ const validateRegistration = (reqBody?: RegistrationInput): RegistrationResponse
 // TODO username already taken
 const checkUsername = (username: string, errors: RegistrationErrors): void => {
   if (isEmptyStr(username)) errors.username = "Can't be empty";
-};
-
-const checkEmail = (email: string, errors: RegistrationErrors): void => {
-  if (isEmptyStr(email)) errors.email = "Can't be empty";
-  if (!/\S+@\S+/.test(email)) errors.email = 'Must be a valid email address';
-};
-
-const checkPassword = (password: string, errors: RegistrationErrors): void => {
-  if (isEmptyStr(password)) errors.password = "Can't be empty";
 };
 
 export default validateRegistration;
