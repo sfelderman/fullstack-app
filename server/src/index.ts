@@ -1,14 +1,17 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import todosRoute from './routes/todos';
 import usersRoute from './routes/users';
 import dotenv from 'dotenv';
+import { UnauthorizedError } from 'express-jwt';
+import checkJWT from './init/checkJwt';
 
 dotenv.config();
 // "start": "nodemon --inspect-brk=9229 index.js",
 
 const app = express();
+
 // Bodyparser middleware
 app.use(
   bodyParser.urlencoded({
@@ -29,8 +32,23 @@ mongoose
   .then(() => console.log('MongoDB successfully connected'))
   .catch((err: unknown) => console.error(err));
 
+app.get('/healthz', function (req, res) {
+  res.status(200).json({ message: 'Server Running' });
+});
+
+// use JWT on the api routes
+app.use('/api/', checkJWT);
+
 app.use('/api/', todosRoute);
 app.use('/api/', usersRoute);
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  if (err instanceof UnauthorizedError) {
+    console.log(err);
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+  next();
+});
 
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}!`));

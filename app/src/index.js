@@ -10,7 +10,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Auth0Provider
       domain='plaid-fullstack.us.auth0.com'
-      clientId='EfY45TSGV6iZeF7ThFCKh3vN2RIHsdLL'
+      clientId='TrGi3LZZp0Vyx28WQsSJMqUqkdJ0NNi3' // check on this
       redirectUri={window.location.origin}
       audience='https://plaid-fullstack.us.auth0.com/api/v2/'
       scope='read:current_user update:current_user_metadata'>
