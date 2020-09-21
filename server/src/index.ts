@@ -37,10 +37,9 @@ app.get('/healthz', function (req, res) {
 });
 
 // use JWT on the api routes
-app.use('/api/', checkJWT);
 
-app.use('/api/', todosRoute);
-app.use('/api/', usersRoute);
+app.use('/users', usersRoute);
+app.use('/todos', checkJWT, todosRoute);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof UnauthorizedError) {

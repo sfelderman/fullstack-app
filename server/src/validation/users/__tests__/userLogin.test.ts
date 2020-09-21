@@ -21,14 +21,14 @@ describe('validateLogin', () => {
   });
 
   it('returns an error when email is empty', () => {
-    const res = validateLogin({ ...validInput, email: undefined });
+    const res = validateLogin({ ...validInput, email: '' });
 
     expect(res.errors).toEqual({ email: expect.any(String) });
     expect(res.isValid).toEqual(false);
   });
 
   it('returns an error when password is empty', () => {
-    const res = validateLogin({ ...validInput, password: undefined });
+    const res = validateLogin({ ...validInput, password: '' });
 
     expect(res.errors).toEqual({ password: expect.any(String) });
     expect(res.isValid).toEqual(false);

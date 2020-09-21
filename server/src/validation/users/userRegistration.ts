@@ -1,5 +1,6 @@
-import { ObjectT } from '../types/common';
-import { isEmptyObj, isEmptyStr, checkEmail, checkPassword } from './commonValidation';
+import { ObjectT } from '../../types/common';
+import { isEmptyObj, isEmptyStr } from '../commonValidation';
+import { checkEmail, checkPassword } from './usersCommonValidation';
 
 type RegistrationInput = {
   username?: string;

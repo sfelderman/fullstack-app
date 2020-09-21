@@ -3,8 +3,8 @@ import jwt from 'jsonwebtoken';
 import { Router } from 'express';
 
 import User from '../models/User';
-import validateRegistrationInput from '../validation/userRegistration';
-import validateLoginInput from '../validation/userLogin';
+import validateLoginInput from '../validation/users/userLogin';
+import validateRegistrationInput from '../validation/users/userRegistration';
 
 const userRouter = Router();
 
@@ -42,7 +42,7 @@ userRouter.post('/login', async (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
 
   if (!isValid) {
-    res.status(400).json({ errors });
+    return res.status(400).json({ errors });
   }
 
   const { email, password } = req.body;
@@ -72,7 +72,7 @@ userRouter.post('/login', async (req, res) => {
     (err, token) => {
       if (err) console.error(err);
 
-      res.status(200).json({
+      return res.status(200).json({
         success: true,
         token: 'Bearer ' + token
       });

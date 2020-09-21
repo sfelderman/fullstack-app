@@ -1,9 +1,10 @@
-import { isEmptyObj, checkEmail, checkPassword } from './commonValidation';
-import { ObjectT } from '../types/common';
+import { isEmptyObj } from '../commonValidation';
+import { ObjectT } from '../../types/common';
+import { checkEmail, checkPassword } from './usersCommonValidation';
 
 type LoginInput = {
-  email?: string;
-  password?: string;
+  email: string;
+  password: string;
 };
 
 type LoginErrors = {
