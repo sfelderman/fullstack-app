@@ -36,9 +36,7 @@ const validateCreateTodo = (input?: CreateTodoInput): CreateTodoResponse => {
 
   if (isCompleted === undefined) {
     errors.isCompleted = "Can't be empty";
-  }
-
-  if (!isBoolean(isCompleted)) {
+  } else if (!isBoolean(isCompleted)) {
     errors.isCompleted = 'Must be boolean';
   }
 

@@ -1,0 +1,8 @@
+name: 'FullStack API'
+tasks:
+  start:
+    command: yarn start
+    inboundUrl: http://localhost:8080
+ignoreRequests:
+  # For more information on configuration, visit https://www.useoptic.com/docs/faqs-and-troubleshooting/captures
+  - OPTIONS (.*)
