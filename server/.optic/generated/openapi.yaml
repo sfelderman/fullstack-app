@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
  title: untitled API
- version: '124'
+ version: '169'
 paths:
  /todos:
   get:
@@ -116,6 +116,81 @@ paths:
          success:
           type: boolean
          token:
+          type: string
+     description: ''
+    '400':
+     content:
+      application/json:
+       schema:
+        type: object
+        required:
+         - errors
+        properties:
+         errors:
+          type: object
+          required:
+           - email
+          properties:
+           email:
+            type: string
+     description: ''
+  parameters: []
+ /users/register:
+  post:
+   operationId: request_9kWhUGWMpz
+   summary: Registers a new user
+   requestBody:
+    content:
+     application/x-www-form-urlencoded:
+      schema:
+       type: object
+       required:
+        - email
+        - password
+        - username
+       properties:
+        email:
+         type: string
+        password:
+         type: string
+        username:
+         type: string
+   responses:
+    '200':
+     content:
+      application/json:
+       schema:
+        type: object
+        required:
+         - __v
+         - _id
+         - date
+         - email
+         - password
+         - username
+        properties:
+         email:
+          type: string
+         username:
+          type: string
+         _id:
+          type: string
+         date:
+          type: string
+         __v:
+          type: number
+         password:
+          type: string
+     description: ''
+    '400':
+     content:
+      application/json:
+       schema:
+        type: object
+        required:
+         - email
+        properties:
+         email:
           type: string
      description: ''
   parameters: []
