@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
  title: untitled API
- version: '169'
+ version: '198'
 paths:
  /todos:
   get:
@@ -44,6 +44,38 @@ paths:
      description: ''
   parameters: []
  '/todos/{todoId}':
+  delete:
+   operationId: request_SebM563X9a
+   summary: Delete a Todo
+   responses:
+    '200':
+     content:
+      application/json:
+       schema:
+        type: object
+        required:
+         - message
+         - todo
+        properties:
+         message:
+          type: string
+         todo:
+          type: object
+          required:
+           - __v
+           - _id
+           - completed
+           - text
+          properties:
+           __v:
+            type: number
+           _id:
+            type: string
+           completed:
+            type: boolean
+           text:
+            type: string
+     description: ''
   get:
    operationId: request_DTlLzjgpkU
    summary: Fetches Single Todo
@@ -133,6 +165,17 @@ paths:
           properties:
            email:
             type: string
+     description: ''
+    '404':
+     content:
+      application/json:
+       schema:
+        type: object
+        required:
+         - message
+        properties:
+         message:
+          type: string
      description: ''
   parameters: []
  /users/register:
