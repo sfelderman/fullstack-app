@@ -1,20 +1,16 @@
 import bcrypt from 'bcryptjs';
-// import jwt from 'jsonwebtoken';
-// import keys from '../../config/keys';
-// import passport from 'passport';
+import jwt from 'jsonwebtoken';
 import { Router } from 'express';
 
-// Load input validation
-// const validateLoginInput = require('../../validation/login');
-
-// Load User model
 import User from '../models/User';
-import { validateRegistration } from '../validation/userValidator';
+import validateLoginInput from '../validation/users/userLogin';
+import validateRegistrationInput from '../validation/users/userRegistration';
+import useCheckJWT from '../init/checkJwt';
 
 const userRouter = Router();
 
 userRouter.post('/register', async (req, res) => {
-  const { errors, isValid } = validateRegistration(req.body);
+  const { errors, isValid } = validateRegistrationInput(req.body);
   if (!isValid) {
     return res.status(400).json({ errors });
   }
@@ -43,58 +39,74 @@ userRouter.post('/register', async (req, res) => {
   });
 });
 
-// @route POST api/users/login
-// @desc Login user and return JWT token
-// @access Public
-// router.post('/login', (req, res) => {
-//   // Form validation
+userRouter.post('/login', async (req, res) => {
+  const { errors, isValid } = validateLoginInput(req.body);
 
-//   const { errors, isValid } = validateLoginInput(req.body);
+  if (!isValid) {
+    return res.status(400).json({ errors });
+  }
 
-//   // Check validation
-//   if (!isValid) {
-//     return res.status(400).json(errors);
-//   }
+  const { email, password } = req.body;
 
-//   const email = req.body.email;
-//   const password = req.body.password;
+  const user = await User.findOne({ email });
+  if (!user) {
+    return res.status(404).json({ message: 'Email not found' });
+  }
 
-//   // Find user by email
-//   User.findOne({ email }).then(user => {
-//     // Check if user exists
-//     if (!user) {
-//       return res.status(404).json({ emailnotfound: 'Email not found' });
-//     }
+  const isPasswordMatch = await bcrypt.compare(password, user.password);
+  if (!isPasswordMatch) {
+    return res.status(400).json({ message: 'Password incorrect' });
+  }
 
-//     // Check password
-//     bcrypt.compare(password, user.password).then(isMatch => {
-//       if (isMatch) {
-//         // User matched
-//         // Create JWT Payload
-//         const payload = {
-//           id: user.id,
-//           name: user.name
-//         };
+  const payload = {
+    id: user.id,
+    username: user.username
+  };
 
-//         // Sign token
-//         jwt.sign(
-//           payload,
-//           keys.secretOrKey,
-//           {
-//             expiresIn: 31556926 // 1 year in seconds
-//           },
-//           (err, token) => {
-//             res.json({
-//               success: true,
-//               token: 'Bearer ' + token
-//             });
-//           }
-//         );
-//       } else {
-//         return res.status(400).json({ passwordincorrect: 'Password incorrect' });
-//       }
-//     });
-//   });
-// });
+  jwt.sign(
+    payload,
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    process.env.secretOrKey!,
+    {
+      expiresIn: 60 * 60 * 4 // 4 hours
+    },
+    (err, token) => {
+      if (err) console.error(err);
+
+      return res.status(200).json({
+        success: true,
+        token: 'Bearer ' + token
+      });
+    }
+  );
+});
+
+userRouter.delete('/', useCheckJWT, async (req, res) => {
+  const userId = req.user?.id;
+  try {
+    const user = await User.findByIdAndRemove(userId); // Returns the updated document.
+
+    if (!user) {
+      return res.status(404).json({
+        message: 'User not found with id: ' + userId
+      });
+    }
+    return res.status(200).json({
+      message: 'User deleted successfully',
+      user
+    });
+  } catch (err) {
+    if (err.kind === 'ObjectId' || err.name === 'NotFound') {
+      return res.status(404).json({
+        message: 'User not found with id: ' + userId,
+        error: err
+      });
+    }
+    return res.status(500).json({
+      message: 'Error deleting user with id: ' + userId,
+      error: err
+    });
+  }
+});
 
 export default userRouter;

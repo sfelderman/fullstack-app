@@ -1,0 +1,241 @@
+openapi: 3.0.1
+info:
+ title: untitled API
+ version: '198'
+paths:
+ /todos:
+  get:
+   operationId: request_JxEIY405Mr
+   summary: Gets all Todos
+   description: Returns a list of all todos available to the user
+   responses:
+    '200':
+     content:
+      application/json:
+       schema:
+        type: array
+        items:
+         type: object
+         required:
+          - __v
+          - _id
+          - completed
+          - text
+         properties:
+          __v:
+           type: number
+          _id:
+           type: string
+          completed:
+           type: boolean
+          text:
+           type: string
+     description: ''
+    '401':
+     content:
+      application/json:
+       schema:
+        type: object
+        required:
+         - message
+        properties:
+         message:
+          type: string
+     description: ''
+  parameters: []
+ '/todos/{todoId}':
+  delete:
+   operationId: request_SebM563X9a
+   summary: Delete a Todo
+   responses:
+    '200':
+     content:
+      application/json:
+       schema:
+        type: object
+        required:
+         - message
+         - todo
+        properties:
+         message:
+          type: string
+         todo:
+          type: object
+          required:
+           - __v
+           - _id
+           - completed
+           - text
+          properties:
+           __v:
+            type: number
+           _id:
+            type: string
+           completed:
+            type: boolean
+           text:
+            type: string
+     description: ''
+  get:
+   operationId: request_DTlLzjgpkU
+   summary: Fetches Single Todo
+   responses:
+    '200':
+     content:
+      application/json:
+       schema:
+        type: object
+        required:
+         - __v
+         - _id
+         - completed
+         - text
+        properties:
+         __v:
+          type: number
+         _id:
+          type: string
+         completed:
+          type: boolean
+         text:
+          type: string
+     description: ''
+    '401':
+     content:
+      application/json:
+       schema:
+        type: object
+        required:
+         - message
+        properties:
+         message:
+          type: string
+     description: ''
+  parameters:
+   -
+    in: path
+    name: todoId
+    required: true
+    schema:
+     type: string
+ /users/login:
+  post:
+   operationId: request_LprGON0NeL
+   summary: Login Endpoint
+   requestBody:
+    content:
+     application/x-www-form-urlencoded:
+      schema:
+       type: object
+       required:
+        - email
+        - password
+       properties:
+        email:
+         type: string
+        password:
+         type: string
+   responses:
+    '200':
+     content:
+      application/json:
+       schema:
+        type: object
+        required:
+         - success
+         - token
+        properties:
+         success:
+          type: boolean
+         token:
+          type: string
+     description: ''
+    '400':
+     content:
+      application/json:
+       schema:
+        type: object
+        required:
+         - errors
+        properties:
+         errors:
+          type: object
+          required:
+           - email
+          properties:
+           email:
+            type: string
+     description: ''
+    '404':
+     content:
+      application/json:
+       schema:
+        type: object
+        required:
+         - message
+        properties:
+         message:
+          type: string
+     description: ''
+  parameters: []
+ /users/register:
+  post:
+   operationId: request_9kWhUGWMpz
+   summary: Registers a new user
+   requestBody:
+    content:
+     application/x-www-form-urlencoded:
+      schema:
+       type: object
+       required:
+        - email
+        - password
+        - username
+       properties:
+        email:
+         type: string
+        password:
+         type: string
+        username:
+         type: string
+   responses:
+    '200':
+     content:
+      application/json:
+       schema:
+        type: object
+        required:
+         - __v
+         - _id
+         - date
+         - email
+         - password
+         - username
+        properties:
+         email:
+          type: string
+         username:
+          type: string
+         _id:
+          type: string
+         date:
+          type: string
+         __v:
+          type: number
+         password:
+          type: string
+     description: ''
+    '400':
+     content:
+      application/json:
+       schema:
+        type: object
+        required:
+         - email
+        properties:
+         email:
+          type: string
+     description: ''
+  parameters: []
+components:
+ schemas: {}

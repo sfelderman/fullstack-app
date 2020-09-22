@@ -1,23 +1,23 @@
 import { Router } from 'express';
 import Todo from '../models/Todo';
+import validateCreateTodo from '../validation/todos/validateCreateTodo';
 
 const todoRouter = Router();
 
 // Create Endpoint
-todoRouter.post('/todo', async (req, res) => {
-  if (!req.body) {
-    return res.status(400).json({
-      message: 'req.body can not be empty'
-    });
+todoRouter.post('/', async (req, res) => {
+  const { errors, isValid } = validateCreateTodo(req.body);
+  if (!isValid) {
+    return res.status(400).json({ errors });
   }
 
   const todo = new Todo({ ...req.body });
 
   try {
     const data = await todo.save();
-    res.status(201).json(data);
+    return res.status(201).json(data);
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       message: err.message,
       error: err
     });
@@ -25,12 +25,12 @@ todoRouter.post('/todo', async (req, res) => {
 });
 
 // Find All Endpoint.
-todoRouter.get('/todos', async (req, res) => {
+todoRouter.get('/', async (req, res) => {
   try {
     const todos = await Todo.find({ ...req.params });
-    res.status(200).json(todos);
+    return res.status(200).json(todos);
   } catch (err) {
-    res.status(500).json({
+    return res.status(500).json({
       message: 'Any error occurred while retrieving Todos.',
       error: err
     });
@@ -38,7 +38,7 @@ todoRouter.get('/todos', async (req, res) => {
 });
 
 // Find By Id Endpoint.
-todoRouter.get('/todo/:todoId', async (req, res) => {
+todoRouter.get('/:todoId', async (req, res) => {
   try {
     const todo = await Todo.findById(req.params.todoId);
     if (!todo) {
@@ -50,11 +50,11 @@ todoRouter.get('/todo/:todoId', async (req, res) => {
   } catch (err) {
     if (err.kind === 'ObjectId') {
       return res.status(404).json({
-        message: 'Todo not found with id: ' + req.params.todoId,
-        error: err
+        message: 'Todo not found with id: ' + req.params.todoId
       });
     }
-    res.status(500).json({
+
+    return res.status(500).json({
       message: 'Error retrieving todo with id: ' + req.params.todoId,
       error: err
     });
@@ -62,9 +62,9 @@ todoRouter.get('/todo/:todoId', async (req, res) => {
 });
 
 // Update Endpoint.
-todoRouter.put('/todo/:todoId', async (req, res) => {
+todoRouter.put('/:todoId', async (req, res) => {
   if (!req.body) {
-    res.status(400).json({
+    return res.status(400).json({
       message: 'req.body can not be empty.'
     });
   }
@@ -87,7 +87,7 @@ todoRouter.put('/todo/:todoId', async (req, res) => {
         error: err
       });
     }
-    res.status(500).json({
+    return res.status(500).json({
       message: 'Error updating todo with id: ' + todoId,
       error: err
     });
@@ -95,7 +95,7 @@ todoRouter.put('/todo/:todoId', async (req, res) => {
 });
 
 // Delete Endpoint.
-todoRouter.delete('/todo/:todoId', async (req, res) => {
+todoRouter.delete('/:todoId', async (req, res) => {
   const todoId = req.params.todoId;
   try {
     const todo = await Todo.findByIdAndRemove(todoId); // Returns the updated document.
@@ -105,7 +105,7 @@ todoRouter.delete('/todo/:todoId', async (req, res) => {
         message: 'Todo not found with id: ' + todoId
       });
     }
-    res.status(200).json({
+    return res.status(200).json({
       message: 'Todo deleted successfully',
       todo
     });
