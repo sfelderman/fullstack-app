@@ -4,8 +4,8 @@
   "description": "A very basic server",
   "main": "index.ts",
   "scripts": {
-    "start": "nodemon",
-    "dev": "nodemon",
+    "start": "TS_NODE_FILES=true nodemon",
+    "dev": "TS_NODE_FILES=true nodemon",
     "build": "rimraf ./build && tsc",
     "prod": "npm run build && node build/index.js",
     "lint": "eslint . --ext .ts",

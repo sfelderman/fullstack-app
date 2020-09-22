@@ -5,6 +5,7 @@ import { Router } from 'express';
 import User from '../models/User';
 import validateLoginInput from '../validation/users/userLogin';
 import validateRegistrationInput from '../validation/users/userRegistration';
+import useCheckJWT from '../init/checkJwt';
 
 const userRouter = Router();
 
@@ -78,6 +79,34 @@ userRouter.post('/login', async (req, res) => {
       });
     }
   );
+});
+
+userRouter.delete('/', useCheckJWT, async (req, res) => {
+  const userId = req.user?.id;
+  try {
+    const user = await User.findByIdAndRemove(userId); // Returns the updated document.
+
+    if (!user) {
+      return res.status(404).json({
+        message: 'User not found with id: ' + userId
+      });
+    }
+    return res.status(200).json({
+      message: 'User deleted successfully',
+      user
+    });
+  } catch (err) {
+    if (err.kind === 'ObjectId' || err.name === 'NotFound') {
+      return res.status(404).json({
+        message: 'User not found with id: ' + userId,
+        error: err
+      });
+    }
+    return res.status(500).json({
+      message: 'Error deleting user with id: ' + userId,
+      error: err
+    });
+  }
 });
 
 export default userRouter;
