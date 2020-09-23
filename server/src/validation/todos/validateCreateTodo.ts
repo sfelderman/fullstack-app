@@ -2,13 +2,13 @@ import { isEmptyObj, isEmptyStr, isBoolean } from '../commonValidation';
 
 export type CreateTodoInput = {
   text: string;
-  isCompleted: boolean;
+  completed: boolean;
 };
 
 type CreateTodoErrors = {
   body?: string;
   text?: string;
-  isCompleted?: string;
+  completed?: string;
 };
 
 type CreateTodoResponse = {
@@ -28,16 +28,16 @@ const validateCreateTodo = (input?: CreateTodoInput): CreateTodoResponse => {
     return { errors, isValid: false };
   }
 
-  const { text, isCompleted } = input;
+  const { text, completed } = input;
 
   if (isEmptyStr(text)) {
     errors.text = "Can't be empty";
   }
 
-  if (isCompleted === undefined) {
-    errors.isCompleted = "Can't be empty";
-  } else if (!isBoolean(isCompleted)) {
-    errors.isCompleted = 'Must be boolean';
+  if (completed === undefined) {
+    errors.completed = "Can't be empty";
+  } else if (!isBoolean(completed)) {
+    errors.completed = 'Must be boolean';
   }
 
   return { errors, isValid: isEmptyObj(errors) };

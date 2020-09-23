@@ -3,7 +3,7 @@ import validateCreateTodo, { CreateTodoInput } from '../validateCreateTodo';
 describe('validateCreateTodo', () => {
   const validInput = {
     text: 'Some Text',
-    isCompleted: false
+    completed: false
   };
 
   it('returns empty errors and isValid when passed valid input', () => {
@@ -29,21 +29,21 @@ describe('validateCreateTodo', () => {
     expect(res.isValid).toEqual(false);
   });
 
-  it('should return an error when missing isCompleted field', () => {
-    const badInput = ({ ...validInput, isCompleted: undefined } as unknown) as CreateTodoInput;
+  it('should return an error when missing completed field', () => {
+    const badInput = ({ ...validInput, completed: undefined } as unknown) as CreateTodoInput;
 
     const res = validateCreateTodo(badInput);
 
-    expect(res.errors).toEqual({ isCompleted: expect.any(String) });
+    expect(res.errors).toEqual({ completed: expect.any(String) });
     expect(res.isValid).toEqual(false);
   });
 
-  it('should return an error when isCompleted is not a boolean', () => {
-    const badInput = ({ ...validInput, isCompleted: 'testing' } as unknown) as CreateTodoInput;
+  it('should return an error when completed is not a boolean', () => {
+    const badInput = ({ ...validInput, completed: 'testing' } as unknown) as CreateTodoInput;
 
     const res = validateCreateTodo(badInput);
 
-    expect(res.errors).toEqual({ isCompleted: expect.any(String) });
+    expect(res.errors).toEqual({ completed: expect.any(String) });
     expect(res.isValid).toEqual(false);
   });
 });
