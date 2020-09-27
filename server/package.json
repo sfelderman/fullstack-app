@@ -2,12 +2,14 @@
   "name": "server",
   "version": "1.0.0",
   "description": "A very basic server",
-  "main": "index.ts",
+  "main": "server.ts",
   "scripts": {
     "start": "TS_NODE_FILES=true nodemon",
+    "start:dev": "yarn build:dev",
     "dev": "TS_NODE_FILES=true nodemon",
     "build": "rimraf ./build && tsc",
-    "prod": "npm run build && node build/index.js",
+    "build:dev": "TS_NODE_FILES=true nodemon 'src/server.ts' --exec 'ts-node' src/server.ts -e ts,graphql",
+    "prod": "yarn run build && node build/index.js",
     "lint": "eslint . --ext .ts",
     "test": "jest --config jest.config.js",
     "test-watch": "jest --config jest.config.js --watch"
