@@ -1,17 +1,20 @@
 import { Router } from 'express';
-import Todo from '../models/Todo';
+import Todo, { ITodoDocument } from '../models/Todo';
 import validateCreateTodo from '../validation/todos/validateCreateTodo';
 
 const todoRouter = Router();
 
+const ownsTodo = (todo: ITodoDocument, userId?: string) => todo.userId.equals(userId as string);
+
 // Create Endpoint
 todoRouter.post('/', async (req, res) => {
+  const userId = req.user?.id;
   const { errors, isValid } = validateCreateTodo(req.body);
   if (!isValid) {
     return res.status(400).json({ errors });
   }
 
-  const todo = new Todo({ ...req.body });
+  const todo = new Todo({ ...req.body, userId });
 
   try {
     const data = await todo.save();
@@ -26,8 +29,9 @@ todoRouter.post('/', async (req, res) => {
 
 // Find All Endpoint.
 todoRouter.get('/', async (req, res) => {
+  const userId = req.user?.id;
   try {
-    const todos = await Todo.find({ ...req.params });
+    const todos = await Todo.find({ ...req.params, userId });
     return res.status(200).json(todos);
   } catch (err) {
     return res.status(500).json({
@@ -39,6 +43,7 @@ todoRouter.get('/', async (req, res) => {
 
 // Find By Id Endpoint.
 todoRouter.get('/:todoId', async (req, res) => {
+  const userId = req.user?.id;
   try {
     const todo = await Todo.findById(req.params.todoId);
     if (!todo) {
@@ -46,6 +51,13 @@ todoRouter.get('/:todoId', async (req, res) => {
         message: 'Todo not found with id: ' + req.params.todoId
       });
     }
+
+    if (!ownsTodo(todo, userId)) {
+      return res.status(403).json({
+        message: 'Forbidden'
+      });
+    }
+
     return res.status(200).json(todo);
   } catch (err) {
     if (err.kind === 'ObjectId') {
@@ -63,6 +75,7 @@ todoRouter.get('/:todoId', async (req, res) => {
 
 // Update Endpoint.
 todoRouter.put('/:todoId', async (req, res) => {
+  const userId = req.user?.id;
   if (!req.body) {
     return res.status(400).json({
       message: 'req.body can not be empty.'
@@ -79,6 +92,13 @@ todoRouter.put('/:todoId', async (req, res) => {
         message: 'Todo not found with id: ' + todoId
       });
     }
+
+    if (!ownsTodo(todo, userId)) {
+      return res.status(403).json({
+        message: 'Forbidden'
+      });
+    }
+
     return res.status(200).json(todo);
   } catch (err) {
     if (err.kind === 'ObjectId') {
@@ -96,15 +116,25 @@ todoRouter.put('/:todoId', async (req, res) => {
 
 // Delete Endpoint.
 todoRouter.delete('/:todoId', async (req, res) => {
+  const userId = req.user?.id;
   const todoId = req.params.todoId;
   try {
-    const todo = await Todo.findByIdAndRemove(todoId); // Returns the updated document.
+    let todo = await Todo.findById(todoId);
 
     if (!todo) {
       return res.status(404).json({
         message: 'Todo not found with id: ' + todoId
       });
     }
+
+    if (!ownsTodo(todo, userId)) {
+      return res.status(403).json({
+        message: 'Forbidden'
+      });
+    }
+
+    todo = await todo.deleteOne();
+
     return res.status(200).json({
       message: 'Todo deleted successfully',
       todo

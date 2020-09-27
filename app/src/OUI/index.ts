@@ -54,7 +54,6 @@ function useOptimisticState<STATE>(initialState: STATE) {
       );
     } else if (responseState) {
       console.log('using set state version');
-      debugger;
       setState(responseState);
     } else {
       // TODO this might mean I should make two functions

@@ -1,12 +1,11 @@
-import { isEmptyObj } from '../commonValidation';
-import { isBoolean } from 'util';
+import { isEmptyObj, isBoolean } from '../commonValidation';
 
 export type UpdateTodoInput = {
-  isCompleted?: boolean;
+  completed?: boolean;
 };
 
 type UpdateTodoErrors = {
-  isCompleted?: string;
+  completed?: string;
 };
 
 type UpdateTodoResponse = {
@@ -21,8 +20,8 @@ const validateUpdateTodo = (input?: UpdateTodoInput): UpdateTodoResponse => {
     return { errors: {}, isValid: true };
   }
 
-  if (input && !isBoolean(input.isCompleted)) {
-    errors.isCompleted = 'Must be a boolean';
+  if (input && !isBoolean(input.completed)) {
+    errors.completed = 'Must be a boolean';
   }
 
   return {
