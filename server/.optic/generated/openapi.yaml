@@ -1,7 +1,7 @@
 openapi: 3.0.1
 info:
-  title: untitled API
-  version: '262'
+  title: Fullstack API
+  version: '278'
 paths:
   /users:
     delete:
@@ -125,14 +125,17 @@ paths:
                       - _id
                       - completed
                       - text
+                      - userId
                     properties:
-                      __v:
-                        type: number
                       _id:
+                        type: string
+                      text:
                         type: string
                       completed:
                         type: boolean
-                      text:
+                      __v:
+                        type: number
+                      userId:
                         type: string
           description: ''
         '404':
@@ -160,14 +163,17 @@ paths:
                   - _id
                   - completed
                   - text
+                  - userId
                 properties:
-                  __v:
-                    type: number
                   _id:
+                    type: string
+                  text:
                     type: string
                   completed:
                     type: boolean
-                  text:
+                  __v:
+                    type: number
+                  userId:
                     type: string
           description: ''
         '401':
@@ -216,14 +222,17 @@ paths:
                     - _id
                     - completed
                     - text
+                    - userId
                   properties:
-                    __v:
-                      type: number
                     _id:
+                      type: string
+                    text:
                       type: string
                     completed:
                       type: boolean
-                    text:
+                    __v:
+                      type: number
+                    userId:
                       type: string
           description: ''
         '401':
@@ -265,14 +274,17 @@ paths:
                   - _id
                   - completed
                   - text
+                  - userId
                 properties:
-                  __v:
-                    type: number
                   _id:
+                    type: string
+                  text:
                     type: string
                   completed:
                     type: boolean
-                  text:
+                  __v:
+                    type: number
+                  userId:
                     type: string
           description: ''
         '400':
@@ -289,6 +301,8 @@ paths:
                       body:
                         type: string
                       completed:
+                        type: string
+                      isCompleted:
                         type: string
                       text:
                         type: string
