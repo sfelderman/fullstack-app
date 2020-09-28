@@ -1,11 +1,13 @@
 import express, { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
-import todosRoute from './routes/todos';
-import usersRoute from './routes/users';
+import todosRoute from './express/routes/todos';
+import usersRoute from './express/routes/users';
 import dotenv from 'dotenv';
 import { UnauthorizedError } from 'express-jwt';
-import checkJWT from './init/checkJwt';
+import checkJWT from './express/init/checkJwt';
+import { ApolloServer, gql } from 'apollo-server-express';
+// import { typeDefs, resolvers } from './schema'
 
 dotenv.config();
 // "start": "nodemon --inspect-brk=9229 index.js",
@@ -50,4 +52,49 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 const PORT = process.env.OPTIC_API_PORT || process.env.PORT || 8080;
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}!`));
+
+const typeDefs = gql`
+  # Comments in GraphQL strings (such as this one) start with the hash (#) symbol.
+
+  # This "Book" type defines the queryable fields for every book in our data source.
+  type Book {
+    title: String
+    author: String
+  }
+
+  # The "Query" type is special: it lists all of the available queries that
+  # clients can execute, along with the return type for each. In this
+  # case, the "books" query returns an array of zero or more Books (defined above).
+  type Query {
+    books: [Book]
+  }
+`;
+
+const books = [
+  {
+    title: 'The Awakening',
+    author: 'Kate Chopin'
+  },
+  {
+    title: 'City of Glass',
+    author: 'Paul Auster'
+  }
+];
+
+const resolvers = {
+  Query: {
+    books: () => books
+  }
+};
+
+const server = new ApolloServer({
+  typeDefs,
+  resolvers
+});
+
+server.applyMiddleware({ app });
+
+app.listen({ port: PORT }, () =>
+  console.log(`🚀 Server ready at http://localhost:${PORT}${server.graphqlPath}`)
+);
+// app.listen(PORT, () => console.log(`Server listening on port ${PORT}!`));
