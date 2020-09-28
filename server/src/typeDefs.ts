@@ -9,6 +9,7 @@ const Query = gql`
   }
 
   type Todo {
+    id: ID!
     title: String
     author: String
   }

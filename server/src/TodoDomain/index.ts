@@ -1,2 +1,2 @@
-import Todo from './Todo.graphql';
+import Todo from './Todo';
 export default Todo;

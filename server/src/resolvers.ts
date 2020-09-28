@@ -1,23 +1,9 @@
-import { Resolvers } from './ resolvers-types';
-import TodoResolvers from './TodoDomain/loaders/TodoLoader';
-const todos = [
-  {
-    title: 'The Awakening',
-    author: 'Kate Chopin'
-  },
-  {
-    title: 'City of Glass',
-    author: 'Paul Auster'
-  }
-];
+import { Resolvers } from './resolvers-types';
+import TodoResolvers from './TodoDomain/resolvers/todo.resolvers';
 
 const resolverMap: Resolvers = {
   Query: {
-    // ...TodoResolvers
-    todo: () => {
-      return todos[0];
-    },
-    todos: () => todos
+    ...TodoResolvers
   }
 };
 
