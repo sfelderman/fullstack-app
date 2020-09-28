@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import Todo, { ITodoDocument } from '../../models/Todo';
+import Todo, { ITodoDocument } from '../../mongooseModels/Todo';
 import validateCreateTodo from '../validation/todos/validateCreateTodo';
 
 const todoRouter = Router();
