@@ -16,7 +16,7 @@ const TodoSchema = new Schema({
   }
 });
 
-export interface Todo {
+interface Todo {
   text: string;
   completed: boolean;
   userId: ObjectId;

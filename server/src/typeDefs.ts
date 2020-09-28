@@ -1,18 +1,12 @@
 import { gql } from 'apollo-server-express';
-// import Todo from './TodoDomain';
+import TodoDomain from './TodoDomain';
 
 const Query = gql`
   type Query {
-    # author(id: Int!): Post
-    todo(id: ID!): Todo
-    todos: [Todo]
+    _: String
   }
 
-  type Todo {
-    id: ID!
-    title: String
-    author: String
-  }
+  ${TodoDomain}
 `;
 
 export default Object.values({ Query });

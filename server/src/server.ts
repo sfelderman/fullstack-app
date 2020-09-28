@@ -8,6 +8,7 @@ import { UnauthorizedError } from 'express-jwt';
 import checkJWT from './express/init/checkJwt';
 import { ApolloServer, gql } from 'apollo-server-express';
 import schema from './schema';
+import MongoTodoApi from './TodoDomain/api/MongoTodoApi';
 
 dotenv.config();
 // "start": "nodemon --inspect-brk=9229 index.js",
@@ -54,7 +55,10 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 const PORT = process.env.OPTIC_API_PORT || process.env.PORT || 8080;
 
 const server = new ApolloServer({
-  schema
+  schema,
+  dataSources: () => ({
+    todoApi: new MongoTodoApi()
+  })
 });
 
 server.applyMiddleware({ app });

@@ -1,7 +1,5 @@
-import { IResolvers } from 'apollo-server-express';
 import { Resolvers } from '../../resolvers-types';
 
-// import { IResolvers } from 'graphql-tools';
 const todos = [
   {
     id: '1',
@@ -16,9 +14,10 @@ const todos = [
 ];
 
 const resolvers: Resolvers['Query'] = {
-  todo: (_, { id }) => {
-    const a = todos.find(todo => todo.id === id) || null;
-    return a;
+  todo: async (_, { id }, { dataSources }) => {
+    // return todos.find(todo => todo.id === id) || null;
+    console.log(dataSources);
+    return await dataSources.todoApi.getById(id);
   },
   todos: () => todos
 };

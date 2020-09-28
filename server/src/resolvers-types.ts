@@ -13,6 +13,7 @@ export type Scalars = {
 
 export type Query = {
   __typename?: 'Query';
+  _?: Maybe<Scalars['String']>;
   todo?: Maybe<Todo>;
   todos?: Maybe<Array<Maybe<Todo>>>;
 };
@@ -24,6 +25,7 @@ export type QueryTodoArgs = {
 
 export type Todo = {
   __typename?: 'Todo';
+  id: Scalars['ID'];
   title?: Maybe<Scalars['String']>;
   author?: Maybe<Scalars['String']>;
 };
@@ -107,27 +109,29 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Query: ResolverTypeWrapper<{}>;
+  String: ResolverTypeWrapper<Scalars['String']>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
   Todo: ResolverTypeWrapper<Todo>;
-  String: ResolverTypeWrapper<Scalars['String']>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Query: {};
+  String: Scalars['String'];
   ID: Scalars['ID'];
   Todo: Todo;
-  String: Scalars['String'];
   Boolean: Scalars['Boolean'];
 };
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  _?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   todo?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, RequireFields<QueryTodoArgs, 'id'>>;
   todos?: Resolver<Maybe<Array<Maybe<ResolversTypes['Todo']>>>, ParentType, ContextType>;
 };
 
 export type TodoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Todo'] = ResolversParentTypes['Todo']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   title?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   author?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;

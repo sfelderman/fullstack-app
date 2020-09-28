@@ -1,5 +1,4 @@
-import { gql, IResolvers, makeExecutableSchema } from 'apollo-server-express';
-// import { typeDef as Author } from './author.js';
+import { IResolvers, makeExecutableSchema } from 'apollo-server-express';
 import typeDefs from './typeDefs';
 import resolvers from './resolvers';
 
