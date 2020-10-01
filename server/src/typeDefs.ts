@@ -12,6 +12,7 @@ const Query = gql`
 const Mutation = gql`
   type Mutation {
     createTodo(text: String!, completed: Boolean!): Todo
+    updateTodo(id: ID!, text: String, completed: Boolean): Todo
   }
 `;
 

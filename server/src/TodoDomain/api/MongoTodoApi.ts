@@ -1,12 +1,18 @@
 import Todo, { ITodoDocument } from '../../mongooseModels/Todo';
-import { MutationCreateTodoArgs, Todo as TodoType } from '../../resolvers-types';
+import {
+  MutationCreateTodoArgs,
+  MutationUpdateTodoArgs,
+  Todo as TodoType
+} from '../../resolvers-types';
 import { DataSource } from 'apollo-datasource';
 import { ObjectId } from 'mongodb';
+import stripNulls from '../../util/stripNulls';
 
 export interface TodoAPI {
   getById: (id: string) => Promise<TodoType | null>;
   getTodos: () => Promise<TodoType[]>;
-  createTodo: ({ text, completed }: MutationCreateTodoArgs) => Promise<TodoType>;
+  createTodo: (args: MutationCreateTodoArgs) => Promise<TodoType>;
+  updateTodo: (args: MutationUpdateTodoArgs) => Promise<TodoType | null>;
 }
 
 class MongoTodoApi extends DataSource implements TodoAPI {
@@ -32,11 +38,21 @@ class MongoTodoApi extends DataSource implements TodoAPI {
     return todos.map(this.formatTodo);
   }
 
-  public async createTodo({ text, completed }: MutationCreateTodoArgs): Promise<TodoType> {
-    const todo = new Todo({ text, completed });
+  public async createTodo(args: MutationCreateTodoArgs): Promise<TodoType> {
+    const todo = new Todo(args);
 
     const savedTodo = await todo.save();
     return this.formatTodo(savedTodo);
+  }
+
+  public async updateTodo({ id, ...args }: MutationUpdateTodoArgs): Promise<TodoType | null> {
+    const convertedId = new ObjectId(id);
+
+    const noNulls = stripNulls(args);
+    const todo = await Todo.findByIdAndUpdate(convertedId, noNulls, { new: true });
+
+    if (!todo) return todo;
+    return this.formatTodo(todo);
   }
 }
 
