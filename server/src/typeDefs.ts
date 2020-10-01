@@ -9,4 +9,10 @@ const Query = gql`
   ${TodoDomain}
 `;
 
-export default Object.values({ Query });
+const Mutation = gql`
+  type Mutation {
+    createTodo(text: String!, completed: Boolean!): Todo
+  }
+`;
+
+export default Object.values({ Query, Mutation });

@@ -1,11 +1,12 @@
 import Todo, { ITodoDocument } from '../../mongooseModels/Todo';
-import { Todo as TodoType } from '../../resolvers-types';
+import { MutationCreateTodoArgs, Todo as TodoType } from '../../resolvers-types';
 import { DataSource } from 'apollo-datasource';
 import { ObjectId } from 'mongodb';
 
 export interface TodoAPI {
   getById: (id: string) => Promise<TodoType | null>;
   getTodos: () => Promise<TodoType[]>;
+  createTodo: ({ text, completed }: MutationCreateTodoArgs) => Promise<TodoType>;
 }
 
 class MongoTodoApi extends DataSource implements TodoAPI {
@@ -29,6 +30,13 @@ class MongoTodoApi extends DataSource implements TodoAPI {
     const todos = await Todo.find();
 
     return todos.map(this.formatTodo);
+  }
+
+  public async createTodo({ text, completed }: MutationCreateTodoArgs): Promise<TodoType> {
+    const todo = new Todo({ text, completed });
+
+    const savedTodo = await todo.save();
+    return this.formatTodo(savedTodo);
   }
 }
 

@@ -9,17 +9,17 @@ const TodoSchema = new Schema({
   completed: {
     type: Boolean,
     default: false
-  },
-  userId: {
-    type: ObjectId,
-    required: true
   }
+  // userId: {
+  //   type: ObjectId,
+  //   required: true
+  // }
 });
 
 export interface TodoInterface {
   text: string;
   completed: boolean;
-  userId: ObjectId;
+  // userId: ObjectId;
 }
 
 export interface ITodoDocument extends TodoInterface, Document {}
