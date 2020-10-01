@@ -3,8 +3,8 @@ import { gql } from 'apollo-server-express';
 const Todo = gql`
   type Todo {
     id: ID!
-    title: String
-    author: String
+    text: String!
+    completed: Boolean!
   }
 
   extend type Query {

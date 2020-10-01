@@ -1,4 +1,4 @@
-import { ObjectT } from '../../../types/common';
+import { ObjectT } from '../../../server/src/types/common';
 import { isEmptyObj, isEmptyStr } from '../commonValidation';
 import { checkEmail, checkPassword } from './usersCommonValidation';
 

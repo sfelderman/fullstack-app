@@ -2,7 +2,7 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import { Router } from 'express';
 
-import User from '../../mongooseModels/User';
+import User from '../../server/src/mongooseModels/User';
 import validateLoginInput from '../validation/users/userLogin';
 import validateRegistrationInput from '../validation/users/userRegistration';
 import useCheckJWT from '../init/checkJwt';

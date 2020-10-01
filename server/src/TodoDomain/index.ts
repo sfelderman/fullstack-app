@@ -1,2 +1,2 @@
-import Todo from './Todo';
+import Todo from './Todo.schema';
 export default Todo;

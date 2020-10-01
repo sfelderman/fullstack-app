@@ -1,25 +1,13 @@
+import GqlContext from '../../context';
 import { Resolvers } from '../../resolvers-types';
 
-const todos = [
-  {
-    id: '1',
-    title: 'The Awakening',
-    author: 'Kate Chopin'
-  },
-  {
-    id: '2',
-    title: 'City of Glass',
-    author: 'Paul Auster'
-  }
-];
-
-const resolvers: Resolvers['Query'] = {
+const resolvers: Resolvers<GqlContext>['Query'] = {
   todo: async (_, { id }, { dataSources }) => {
-    // return todos.find(todo => todo.id === id) || null;
-    console.log(dataSources);
-    return await dataSources.todoApi.getById(id);
+    return dataSources.todoApi.getById(id);
   },
-  todos: () => todos
+  todos: async (_parent, _args, { dataSources }) => {
+    return dataSources.todoApi.getTodos();
+  }
 };
 
 export default resolvers;

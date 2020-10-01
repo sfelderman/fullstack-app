@@ -16,13 +16,13 @@ const TodoSchema = new Schema({
   }
 });
 
-interface Todo {
+export interface TodoInterface {
   text: string;
   completed: boolean;
   userId: ObjectId;
 }
 
-export interface ITodoDocument extends Todo, Document {}
+export interface ITodoDocument extends TodoInterface, Document {}
 
 const Todo = model<ITodoDocument>('todo', TodoSchema);
 

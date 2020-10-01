@@ -1,32 +1,34 @@
-import Todo from '../../mongooseModels/Todo';
+import Todo, { ITodoDocument } from '../../mongooseModels/Todo';
 import { Todo as TodoType } from '../../resolvers-types';
+import { DataSource } from 'apollo-datasource';
+import { ObjectId } from 'mongodb';
 
 export interface TodoAPI {
   getById: (id: string) => Promise<TodoType | null>;
   getTodos: () => Promise<TodoType[]>;
 }
 
-class MongoTodoApi implements TodoAPI {
-  public initialize() {}
-
-  public async getById(id: string): Promise<TodoType | null> {
-    const val = await Todo.findById(id);
-    if (!val) return null;
-
+class MongoTodoApi extends DataSource implements TodoAPI {
+  private formatTodo(todo: ITodoDocument): TodoType {
     return {
-      ...val,
-      id: val._id
+      id: todo.id,
+      completed: todo.completed,
+      text: todo.text
     };
   }
 
-  public async getTodos(): Promise<TodoType[]> {
-    const vals = await Todo.find();
-    if (!vals) return [];
+  public async getById(id: string): Promise<TodoType | null> {
+    const convertedId = new ObjectId(id);
+    const todo = await Todo.findById(convertedId);
+    if (!todo) return null;
 
-    return vals.map(todo => ({
-      ...todo,
-      id: todo._id
-    }));
+    return this.formatTodo(todo);
+  }
+
+  public async getTodos(): Promise<TodoType[]> {
+    const todos = await Todo.find();
+
+    return todos.map(this.formatTodo);
   }
 }
 
