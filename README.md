@@ -16,6 +16,10 @@
 - finances
 - calendar (with the special api to instant adding)
 - reddit?
+  - saved and saved_categories
+- Movie DB?
+- NASA pictures
+- us gov analytics - https://open.gsa.gov/api/dap/
 - popular news sites?
 
 ### Architecture

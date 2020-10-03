@@ -1,14 +1,21 @@
-import { ObjectId } from 'mongodb';
 import { Schema, model, Document } from 'mongoose';
 
 const TodoSchema = new Schema({
   text: {
+    type: String,
+    required: false,
+    default: ''
+  },
+  title: {
     type: String,
     required: true
   },
   completed: {
     type: Boolean,
     default: false
+  },
+  dueDate: {
+    type: Date
   }
   // userId: {
   //   type: ObjectId,
@@ -17,8 +24,10 @@ const TodoSchema = new Schema({
 });
 
 export interface TodoInterface {
+  title: string;
   text: string;
   completed: boolean;
+  dueDate: Date;
   // userId: ObjectId;
 }
 

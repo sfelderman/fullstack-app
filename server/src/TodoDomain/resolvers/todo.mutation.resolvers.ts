@@ -7,6 +7,9 @@ const resolvers: Resolvers<GqlContext>['Mutation'] = {
   },
   updateTodo: async (_, args, { dataSources }) => {
     return dataSources.todoApi.updateTodo(args);
+  },
+  deleteTodo: async (_, { id }, { dataSources }) => {
+    return dataSources.todoApi.deleteTodo(id);
   }
 };
 

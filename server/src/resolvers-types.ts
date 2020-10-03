@@ -1,4 +1,4 @@
-import { GraphQLResolveInfo } from 'graphql';
+import { GraphQLResolveInfo, GraphQLScalarType, GraphQLScalarTypeConfig } from 'graphql';
 export type Maybe<T> = T | null;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type RequireFields<T, K extends keyof T> = { [X in Exclude<keyof T, K>]?: T[X] } & { [P in K]-?: NonNullable<T[P]> };
@@ -9,11 +9,22 @@ export type Scalars = {
   Boolean: boolean;
   Int: number;
   Float: number;
+  /** Date custom scalar type */
+  Date: any;
+};
+
+
+export type Todo = {
+  __typename?: 'Todo';
+  id: Scalars['ID'];
+  title: Scalars['String'];
+  text: Scalars['String'];
+  completed: Scalars['Boolean'];
+  dueDate?: Maybe<Scalars['Date']>;
 };
 
 export type Query = {
   __typename?: 'Query';
-  _?: Maybe<Scalars['String']>;
   todo?: Maybe<Todo>;
   todos?: Maybe<Array<Maybe<Todo>>>;
 };
@@ -23,30 +34,33 @@ export type QueryTodoArgs = {
   id: Scalars['ID'];
 };
 
-export type Todo = {
-  __typename?: 'Todo';
-  id: Scalars['ID'];
-  text: Scalars['String'];
-  completed: Scalars['Boolean'];
-};
-
 export type Mutation = {
   __typename?: 'Mutation';
   createTodo?: Maybe<Todo>;
   updateTodo?: Maybe<Todo>;
+  deleteTodo?: Maybe<Todo>;
 };
 
 
 export type MutationCreateTodoArgs = {
-  text: Scalars['String'];
-  completed: Scalars['Boolean'];
+  title: Scalars['String'];
+  completed?: Maybe<Scalars['Boolean']>;
+  text?: Maybe<Scalars['String']>;
+  dueDate?: Maybe<Scalars['Date']>;
 };
 
 
 export type MutationUpdateTodoArgs = {
   id: Scalars['ID'];
-  text?: Maybe<Scalars['String']>;
+  title?: Maybe<Scalars['String']>;
   completed?: Maybe<Scalars['Boolean']>;
+  text?: Maybe<Scalars['String']>;
+  dueDate?: Maybe<Scalars['Date']>;
+};
+
+
+export type MutationDeleteTodoArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -127,45 +141,54 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
-  Query: ResolverTypeWrapper<{}>;
-  String: ResolverTypeWrapper<Scalars['String']>;
-  ID: ResolverTypeWrapper<Scalars['ID']>;
+  Date: ResolverTypeWrapper<Scalars['Date']>;
   Todo: ResolverTypeWrapper<Todo>;
+  ID: ResolverTypeWrapper<Scalars['ID']>;
+  String: ResolverTypeWrapper<Scalars['String']>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
+  Query: ResolverTypeWrapper<{}>;
   Mutation: ResolverTypeWrapper<{}>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
-  Query: {};
-  String: Scalars['String'];
-  ID: Scalars['ID'];
+  Date: Scalars['Date'];
   Todo: Todo;
+  ID: Scalars['ID'];
+  String: Scalars['String'];
   Boolean: Scalars['Boolean'];
+  Query: {};
   Mutation: {};
 };
 
+export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
+  name: 'Date';
+}
+
+export type TodoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Todo'] = ResolversParentTypes['Todo']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  completed?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  dueDate?: Resolver<Maybe<ResolversTypes['Date']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+};
+
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  _?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   todo?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, RequireFields<QueryTodoArgs, 'id'>>;
   todos?: Resolver<Maybe<Array<Maybe<ResolversTypes['Todo']>>>, ParentType, ContextType>;
 };
 
-export type TodoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Todo'] = ResolversParentTypes['Todo']> = {
-  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
-  text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  completed?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
-  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
-};
-
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
-  createTodo?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, RequireFields<MutationCreateTodoArgs, 'text' | 'completed'>>;
+  createTodo?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, RequireFields<MutationCreateTodoArgs, 'title' | 'completed'>>;
   updateTodo?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, RequireFields<MutationUpdateTodoArgs, 'id'>>;
+  deleteTodo?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, RequireFields<MutationDeleteTodoArgs, 'id'>>;
 };
 
 export type Resolvers<ContextType = any> = {
-  Query?: QueryResolvers<ContextType>;
+  Date?: GraphQLScalarType;
   Todo?: TodoResolvers<ContextType>;
+  Query?: QueryResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
 };
 

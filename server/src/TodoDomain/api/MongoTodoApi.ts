@@ -13,6 +13,7 @@ export interface TodoAPI {
   getTodos: () => Promise<TodoType[]>;
   createTodo: (args: MutationCreateTodoArgs) => Promise<TodoType>;
   updateTodo: (args: MutationUpdateTodoArgs) => Promise<TodoType | null>;
+  deleteTodo: (id: string) => Promise<TodoType | null>;
 }
 
 class MongoTodoApi extends DataSource implements TodoAPI {
@@ -20,7 +21,9 @@ class MongoTodoApi extends DataSource implements TodoAPI {
     return {
       id: todo.id,
       completed: todo.completed,
-      text: todo.text
+      title: todo.title,
+      text: todo.text,
+      dueDate: todo.dueDate
     };
   }
 
@@ -48,8 +51,17 @@ class MongoTodoApi extends DataSource implements TodoAPI {
   public async updateTodo({ id, ...args }: MutationUpdateTodoArgs): Promise<TodoType | null> {
     const convertedId = new ObjectId(id);
 
-    const noNulls = stripNulls(args);
-    const todo = await Todo.findByIdAndUpdate(convertedId, noNulls, { new: true });
+    const valsWithNoNulls = stripNulls(args);
+    const todo = await Todo.findByIdAndUpdate(convertedId, valsWithNoNulls, { new: true });
+
+    if (!todo) return todo;
+    return this.formatTodo(todo);
+  }
+
+  public async deleteTodo(id: string): Promise<TodoType | null> {
+    const convertedId = new ObjectId(id);
+
+    const todo = await Todo.findByIdAndDelete(convertedId);
 
     if (!todo) return todo;
     return this.formatTodo(todo);
