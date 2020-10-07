@@ -4,6 +4,28 @@
 
 `docker-compose up --build` to run
 
+## TODO Rewrite
+
+- Move REST work to /rest URL
+- setup graphql within the server
+  - frontend then use apollo client and get all the caching layers and stuff out of the box
+
+### Sections
+
+- todos
+- finances
+- calendar (with the special api to instant adding)
+- reddit?
+  - saved and saved_categories
+- Movie DB?
+- NASA pictures
+- us gov analytics - https://open.gsa.gov/api/dap/
+- popular news sites?
+
+### Architecture
+
+- replaceable layer between resolver and actual implementation
+
 ## Setup
 
 - ESLINT setup
@@ -18,45 +40,6 @@
 - pull transactions
 - save transactions
 
-## Checklist things TODO
-
-- ### Advanced Optimistic UI Layer
-
-  - Should report when an error occurs and roll back all changes
-  - how to preserve the data?
-  - allow throttling if needed
-    - collect all updates and send last state after X time
-    - Example: toggling the completed state
-
-- ### Error Handling
-
-  - report errors in console for all request
-  - consider a _Use Fetch hook_ to standardize this
-
-- ### ServiceWorkers
-
-  - intercept outgoing data and store it in cache or indexDB
-  - Update cache/db after response
-  - Full offline support?
-
-- ### Progressive Web App
-
-  - mobile friendly
-  - service workers install on phone
-
-- ## Testing
-
-- mocked unit tests
-- ui tests - Perhaps look into some type of testing framework for hitting the mocked endpoints like cypress
-- storybook?
-
-- ### Investigate Mocking for "Local" development
-
-  - look into the DFP in a box
-  - fillable database
-  - proxy to watch incoming and out going traffic
-  - how to put the server code and small dataset inside of the container
-
 - ### TODO enhancements
   - Due dates
   - Push notifications
@@ -70,19 +53,16 @@
 
 # Rewrite
 
-## Create login
+## ~~Create login~~
 
 ## Create homepage
 
 - create `/todos` as current TODO app
 
-## Change DB to Firebase
-
-- move todos from mongo to firebase
-
 ## Remove Optimistic UI Layer
 
 - remove OUI, enable persistence and offline
+- or replace with apollo client
 
 # Finances
 
@@ -144,3 +124,46 @@
 
   - Should respond immediately with success state
   - Should update any necessary info after success (\_id would need an update)
+
+---
+
+# OLD STUFF
+
+## Checklist things TODO
+
+- ### Advanced Optimistic UI Layer
+
+  - Should report when an error occurs and roll back all changes
+  - how to preserve the data?
+  - allow throttling if needed
+    - collect all updates and send last state after X time
+    - Example: toggling the completed state
+
+- ### Error Handling
+
+  - report errors in console for all request
+  - consider a _Use Fetch hook_ to standardize this
+
+- ### ServiceWorkers
+
+  - intercept outgoing data and store it in cache or indexDB
+  - Update cache/db after response
+  - Full offline support?
+
+- ### Progressive Web App
+
+  - mobile friendly
+  - service workers install on phone
+
+- ## Testing
+
+- mocked unit tests
+- ui tests - Perhaps look into some type of testing framework for hitting the mocked endpoints like cypress
+- storybook?
+
+- ### Investigate Mocking for "Local" development
+
+  - look into the DFP in a box
+  - fillable database
+  - proxy to watch incoming and out going traffic
+  - how to put the server code and small dataset inside of the container

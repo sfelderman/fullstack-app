@@ -1,5 +1,5 @@
 import { isEmptyObj } from '../commonValidation';
-import { ObjectT } from '../../types/common';
+import { ObjectT } from '../../../server/src/types/common';
 import { checkEmail, checkPassword } from './usersCommonValidation';
 
 type LoginInput = {

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import Todo, { ITodoDocument } from '../models/Todo';
+import Todo, { ITodoDocument } from '../../server/src/mongooseModels/Todo';
 import validateCreateTodo from '../validation/todos/validateCreateTodo';
 
 const todoRouter = Router();
@@ -8,6 +8,7 @@ const ownsTodo = (todo: ITodoDocument, userId?: string) => todo.userId.equals(us
 
 // Create Endpoint
 todoRouter.post('/', async (req, res) => {
+  // @ts-ignore
   const userId = req.user?.id;
   const { errors, isValid } = validateCreateTodo(req.body);
   if (!isValid) {
