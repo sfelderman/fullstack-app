@@ -14,6 +14,8 @@
 
 - todos
 - finances
+  - plaid
+  - finicity
 - calendar (with the special api to instant adding)
 - reddit?
   - saved and saved_categories

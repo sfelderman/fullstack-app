@@ -1,11 +1,13 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import { ApolloServer } from 'apollo-server-express';
 import schema from './schema';
-import MongoTodoApi from './TodoDomain/api/MongoTodoApi';
 import { makeContext } from './context';
+import usersRoute from './routes/users';
+import useCheckJWT from './util/checkJwt';
+import { UnauthorizedError } from 'express-jwt';
 
 dotenv.config();
 // "start": "nodemon --inspect-brk=9229 index.js",
@@ -36,13 +38,16 @@ app.get('/healthz', function (req, res) {
   res.status(200).json({ message: 'Server Running' });
 });
 
-// app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-//   if (err instanceof UnauthorizedError) {
-//     console.log(err);
-//     return res.status(401).json({ message: 'Unauthorized' });
-//   }
-//   next();
-// });
+app.use('/users', usersRoute);
+
+app.use('/graphql', useCheckJWT);
+
+app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
+  if (err instanceof UnauthorizedError) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+  next();
+});
 
 const PORT = process.env.OPTIC_API_PORT || process.env.PORT || 8080;
 

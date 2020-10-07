@@ -1,4 +1,4 @@
-import Todo, { ITodoDocument } from '../../mongooseModels/Todo';
+import Todo, { ITodoDocument } from '../../mongooseModels/TodoModel';
 import {
   MutationCreateTodoArgs,
   MutationUpdateTodoArgs,
