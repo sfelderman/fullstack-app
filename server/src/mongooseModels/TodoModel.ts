@@ -1,6 +1,13 @@
+import { ObjectId } from 'mongodb';
+
 import { Schema, model, Document } from 'mongoose';
 
 const TodoSchema = new Schema({
+  userId: {
+    type: Schema.Types.ObjectId,
+    ref: 'users',
+    required: true
+  },
   text: {
     type: String,
     required: false,
@@ -17,10 +24,15 @@ const TodoSchema = new Schema({
   dueDate: {
     type: Date
   }
-  // userId: {
-  //   type: ObjectId,
-  //   required: true
-  // }
+});
+
+TodoSchema.virtual('id').get(function () {
+  // @ts-ignore
+  return this._id.toHexString();
+});
+
+TodoSchema.set('toObject', {
+  virtuals: true
 });
 
 export interface TodoInterface {
@@ -28,7 +40,7 @@ export interface TodoInterface {
   text: string;
   completed: boolean;
   dueDate: Date;
-  // userId: ObjectId;
+  userId: ObjectId;
 }
 
 export interface ITodoDocument extends TodoInterface, Document {}

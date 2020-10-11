@@ -1,24 +1,30 @@
 import { GraphQLScalarType } from 'graphql';
 import { Kind } from 'graphql/language';
 import { Resolvers } from './resolvers-types';
-import TodoResolvers from './TodoDomain/resolvers/todo.resolvers';
+import TodoDomain from './TodoDomain/resolvers/todo.resolvers';
+import PlaidDomain from './PlaidDomain/resolvers/plaid.resolvers';
 import TodoMutationResolvers from './TodoDomain/resolvers/todo.mutation.resolvers';
+import PlaidMutationResolvers from './PlaidDomain/resolvers/plaid.mutation.resolvers';
 
 const resolverMap: Resolvers = {
+  TodoDomain,
+  PlaidDomain,
   Query: {
-    ...TodoResolvers
+    todo: () => ({}),
+    plaid: () => ({})
   },
   Mutation: {
-    ...TodoMutationResolvers
+    ...TodoMutationResolvers,
+    ...PlaidMutationResolvers
   },
   Date: new GraphQLScalarType({
     name: 'Date',
     description: 'Date custom scalar type',
     parseValue(value) {
-      return new Date(value).toISOString(); // value from the client
+      return new Date(value).toISOString(); // value FROM the client
     },
     serialize(value) {
-      return value.toISOString(); // value sent to the client
+      return value.toISOString(); // value sent TO the client
     },
     parseLiteral(ast) {
       if (ast.kind === Kind.INT) {

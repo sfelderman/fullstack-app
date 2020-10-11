@@ -14,24 +14,31 @@ export type Scalars = {
 };
 
 
-export type Todo = {
-  __typename?: 'Todo';
-  id: Scalars['ID'];
-  title: Scalars['String'];
-  text: Scalars['String'];
-  completed: Scalars['Boolean'];
-  dueDate?: Maybe<Scalars['Date']>;
-};
-
 export type Query = {
   __typename?: 'Query';
+  todo?: Maybe<TodoDomain>;
+  plaid?: Maybe<PlaidDomain>;
+};
+
+export type TodoDomain = {
+  __typename?: 'TodoDomain';
   todo?: Maybe<Todo>;
   todos?: Maybe<Array<Maybe<Todo>>>;
 };
 
 
-export type QueryTodoArgs = {
+export type TodoDomainTodoArgs = {
   id: Scalars['ID'];
+};
+
+export type Todo = {
+  __typename?: 'Todo';
+  id: Scalars['ID'];
+  userId: Scalars['ID'];
+  title: Scalars['String'];
+  text: Scalars['String'];
+  completed: Scalars['Boolean'];
+  dueDate?: Maybe<Scalars['Date']>;
 };
 
 export type Mutation = {
@@ -39,6 +46,8 @@ export type Mutation = {
   createTodo?: Maybe<Todo>;
   updateTodo?: Maybe<Todo>;
   deleteTodo?: Maybe<Todo>;
+  createPlaidAccount?: Maybe<PlaidAccount>;
+  deletePlaidAccount?: Maybe<PlaidAccount>;
 };
 
 
@@ -61,6 +70,46 @@ export type MutationUpdateTodoArgs = {
 
 export type MutationDeleteTodoArgs = {
   id: Scalars['ID'];
+};
+
+
+export type MutationCreatePlaidAccountArgs = {
+  accessToken: Scalars['String'];
+  itemId: Scalars['ID'];
+  institutionId: Scalars['ID'];
+  institutionName?: Maybe<Scalars['String']>;
+  accountName?: Maybe<Scalars['String']>;
+  accountType?: Maybe<Scalars['String']>;
+  accountSubtype?: Maybe<Scalars['String']>;
+};
+
+
+export type MutationDeletePlaidAccountArgs = {
+  id: Scalars['ID'];
+};
+
+export type PlaidDomain = {
+  __typename?: 'PlaidDomain';
+  getAccount?: Maybe<PlaidAccount>;
+  getAccounts?: Maybe<Array<Maybe<PlaidAccount>>>;
+};
+
+
+export type PlaidDomainGetAccountArgs = {
+  id: Scalars['ID'];
+};
+
+export type PlaidAccount = {
+  __typename?: 'PlaidAccount';
+  id: Scalars['ID'];
+  userId: Scalars['ID'];
+  accessToken: Scalars['String'];
+  itemId: Scalars['ID'];
+  institutionId: Scalars['ID'];
+  institutionName?: Maybe<Scalars['String']>;
+  accountName?: Maybe<Scalars['String']>;
+  accountType?: Maybe<Scalars['String']>;
+  accountSubtype?: Maybe<Scalars['String']>;
 };
 
 
@@ -142,31 +191,49 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = {
   Date: ResolverTypeWrapper<Scalars['Date']>;
-  Todo: ResolverTypeWrapper<Todo>;
+  Query: ResolverTypeWrapper<{}>;
+  TodoDomain: ResolverTypeWrapper<TodoDomain>;
   ID: ResolverTypeWrapper<Scalars['ID']>;
+  Todo: ResolverTypeWrapper<Todo>;
   String: ResolverTypeWrapper<Scalars['String']>;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
-  Query: ResolverTypeWrapper<{}>;
   Mutation: ResolverTypeWrapper<{}>;
+  PlaidDomain: ResolverTypeWrapper<PlaidDomain>;
+  PlaidAccount: ResolverTypeWrapper<PlaidAccount>;
 };
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = {
   Date: Scalars['Date'];
-  Todo: Todo;
+  Query: {};
+  TodoDomain: TodoDomain;
   ID: Scalars['ID'];
+  Todo: Todo;
   String: Scalars['String'];
   Boolean: Scalars['Boolean'];
-  Query: {};
   Mutation: {};
+  PlaidDomain: PlaidDomain;
+  PlaidAccount: PlaidAccount;
 };
 
 export interface DateScalarConfig extends GraphQLScalarTypeConfig<ResolversTypes['Date'], any> {
   name: 'Date';
 }
 
+export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
+  todo?: Resolver<Maybe<ResolversTypes['TodoDomain']>, ParentType, ContextType>;
+  plaid?: Resolver<Maybe<ResolversTypes['PlaidDomain']>, ParentType, ContextType>;
+};
+
+export type TodoDomainResolvers<ContextType = any, ParentType extends ResolversParentTypes['TodoDomain'] = ResolversParentTypes['TodoDomain']> = {
+  todo?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, RequireFields<TodoDomainTodoArgs, 'id'>>;
+  todos?: Resolver<Maybe<Array<Maybe<ResolversTypes['Todo']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+};
+
 export type TodoResolvers<ContextType = any, ParentType extends ResolversParentTypes['Todo'] = ResolversParentTypes['Todo']> = {
   id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
   title?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   text?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   completed?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
@@ -174,22 +241,41 @@ export type TodoResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = {
-  todo?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, RequireFields<QueryTodoArgs, 'id'>>;
-  todos?: Resolver<Maybe<Array<Maybe<ResolversTypes['Todo']>>>, ParentType, ContextType>;
-};
-
 export type MutationResolvers<ContextType = any, ParentType extends ResolversParentTypes['Mutation'] = ResolversParentTypes['Mutation']> = {
   createTodo?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, RequireFields<MutationCreateTodoArgs, 'title' | 'completed'>>;
   updateTodo?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, RequireFields<MutationUpdateTodoArgs, 'id'>>;
   deleteTodo?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, RequireFields<MutationDeleteTodoArgs, 'id'>>;
+  createPlaidAccount?: Resolver<Maybe<ResolversTypes['PlaidAccount']>, ParentType, ContextType, RequireFields<MutationCreatePlaidAccountArgs, 'accessToken' | 'itemId' | 'institutionId'>>;
+  deletePlaidAccount?: Resolver<Maybe<ResolversTypes['PlaidAccount']>, ParentType, ContextType, RequireFields<MutationDeletePlaidAccountArgs, 'id'>>;
+};
+
+export type PlaidDomainResolvers<ContextType = any, ParentType extends ResolversParentTypes['PlaidDomain'] = ResolversParentTypes['PlaidDomain']> = {
+  getAccount?: Resolver<Maybe<ResolversTypes['PlaidAccount']>, ParentType, ContextType, RequireFields<PlaidDomainGetAccountArgs, 'id'>>;
+  getAccounts?: Resolver<Maybe<Array<Maybe<ResolversTypes['PlaidAccount']>>>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+};
+
+export type PlaidAccountResolvers<ContextType = any, ParentType extends ResolversParentTypes['PlaidAccount'] = ResolversParentTypes['PlaidAccount']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  accessToken?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  itemId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  institutionId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  institutionName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  accountName?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  accountType?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  accountSubtype?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
 export type Resolvers<ContextType = any> = {
   Date?: GraphQLScalarType;
-  Todo?: TodoResolvers<ContextType>;
   Query?: QueryResolvers<ContextType>;
+  TodoDomain?: TodoDomainResolvers<ContextType>;
+  Todo?: TodoResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
+  PlaidDomain?: PlaidDomainResolvers<ContextType>;
+  PlaidAccount?: PlaidAccountResolvers<ContextType>;
 };
 
 

@@ -1,12 +1,12 @@
 import GqlContext from '../../context';
 import { Resolvers } from '../../resolvers-types';
 
-const resolvers: Resolvers<GqlContext>['Query'] = {
-  todo: async (_, { id }, { dataSources }) => {
+const resolvers: Resolvers<GqlContext>['TodoDomain'] = {
+  todo: (_, { id }, { dataSources }) => {
     return dataSources.todoApi.getById(id);
   },
-  todos: async (_parent, _args, { dataSources }) => {
-    return dataSources.todoApi.getTodos();
+  todos: (_parent, args, { dataSources, userId }) => {
+    return dataSources.todoApi.getTodos({ ...args, userId });
   }
 };
 

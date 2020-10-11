@@ -40,7 +40,7 @@ app.get('/healthz', function (req, res) {
 
 app.use('/users', usersRoute);
 
-app.use('/graphql', useCheckJWT);
+// app.use('/graphql', useCheckJWT);
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
   if (err instanceof UnauthorizedError) {
