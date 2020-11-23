@@ -11,6 +11,7 @@ const resolverMap: Resolvers = {
   PlaidDomain,
   Query: {
     todo: () => ({}),
+    // @ts-ignore
     plaid: () => ({})
   },
   Mutation: {

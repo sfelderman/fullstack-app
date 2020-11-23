@@ -68,7 +68,7 @@ userRouter.post('/login', async (req, res) => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     process.env.secretOrKey!,
     {
-      expiresIn: 60 * 60 * 4 // 4 hours
+      expiresIn: 60 * 60 * 24 // 24 hours
     },
     (err, token) => {
       if (err) console.error(err);

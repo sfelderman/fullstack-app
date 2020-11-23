@@ -32,7 +32,8 @@
     "jsonwebtoken": "^8.5.1",
     "jwks-rsa": "^1.9.0",
     "mongodb": "^3.5.7",
-    "mongoose": "^5.9.15"
+    "mongoose": "^5.9.15",
+    "plaid": "^8.0.0"
   },
   "devDependencies": {
     "@babel/preset-typescript": "^7.10.4",

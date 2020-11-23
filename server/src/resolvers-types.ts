@@ -48,6 +48,7 @@ export type Mutation = {
   deleteTodo?: Maybe<Todo>;
   createPlaidAccount?: Maybe<PlaidAccount>;
   deletePlaidAccount?: Maybe<PlaidAccount>;
+  syncHistoricalTransactions: Array<Maybe<PlaidTransaction>>;
 };
 
 
@@ -88,15 +89,47 @@ export type MutationDeletePlaidAccountArgs = {
   id: Scalars['ID'];
 };
 
+
+export type MutationSyncHistoricalTransactionsArgs = {
+  start?: Maybe<Scalars['Date']>;
+  end?: Maybe<Scalars['Date']>;
+  all?: Maybe<Scalars['Boolean']>;
+};
+
 export type PlaidDomain = {
   __typename?: 'PlaidDomain';
   getAccount?: Maybe<PlaidAccount>;
-  getAccounts?: Maybe<Array<Maybe<PlaidAccount>>>;
+  getAccounts: Array<Maybe<PlaidAccount>>;
+  getTransactions: Array<Maybe<PlaidTransaction>>;
 };
 
 
 export type PlaidDomainGetAccountArgs = {
   id: Scalars['ID'];
+};
+
+
+export type PlaidDomainGetTransactionsArgs = {
+  start: Scalars['Date'];
+  end: Scalars['Date'];
+};
+
+export type PlaidTransaction = {
+  __typename?: 'PlaidTransaction';
+  id: Scalars['ID'];
+  userId: Scalars['ID'];
+  amount: Scalars['Float'];
+  name: Scalars['String'];
+  date: Scalars['Date'];
+  category?: Maybe<Array<Maybe<Scalars['String']>>>;
+  category_id: Scalars['ID'];
+  pending: Scalars['Boolean'];
+  account_id: Scalars['ID'];
+  payment_channel: Scalars['String'];
+  merchant_name?: Maybe<Scalars['String']>;
+  unofficial_currency_code?: Maybe<Scalars['String']>;
+  iso_currency_code?: Maybe<Scalars['String']>;
+  pending_transaction_id?: Maybe<Scalars['String']>;
 };
 
 export type PlaidAccount = {
@@ -199,6 +232,8 @@ export type ResolversTypes = {
   Boolean: ResolverTypeWrapper<Scalars['Boolean']>;
   Mutation: ResolverTypeWrapper<{}>;
   PlaidDomain: ResolverTypeWrapper<PlaidDomain>;
+  PlaidTransaction: ResolverTypeWrapper<PlaidTransaction>;
+  Float: ResolverTypeWrapper<Scalars['Float']>;
   PlaidAccount: ResolverTypeWrapper<PlaidAccount>;
 };
 
@@ -213,6 +248,8 @@ export type ResolversParentTypes = {
   Boolean: Scalars['Boolean'];
   Mutation: {};
   PlaidDomain: PlaidDomain;
+  PlaidTransaction: PlaidTransaction;
+  Float: Scalars['Float'];
   PlaidAccount: PlaidAccount;
 };
 
@@ -247,11 +284,31 @@ export type MutationResolvers<ContextType = any, ParentType extends ResolversPar
   deleteTodo?: Resolver<Maybe<ResolversTypes['Todo']>, ParentType, ContextType, RequireFields<MutationDeleteTodoArgs, 'id'>>;
   createPlaidAccount?: Resolver<Maybe<ResolversTypes['PlaidAccount']>, ParentType, ContextType, RequireFields<MutationCreatePlaidAccountArgs, 'accessToken' | 'itemId' | 'institutionId'>>;
   deletePlaidAccount?: Resolver<Maybe<ResolversTypes['PlaidAccount']>, ParentType, ContextType, RequireFields<MutationDeletePlaidAccountArgs, 'id'>>;
+  syncHistoricalTransactions?: Resolver<Array<Maybe<ResolversTypes['PlaidTransaction']>>, ParentType, ContextType, RequireFields<MutationSyncHistoricalTransactionsArgs, never>>;
 };
 
 export type PlaidDomainResolvers<ContextType = any, ParentType extends ResolversParentTypes['PlaidDomain'] = ResolversParentTypes['PlaidDomain']> = {
   getAccount?: Resolver<Maybe<ResolversTypes['PlaidAccount']>, ParentType, ContextType, RequireFields<PlaidDomainGetAccountArgs, 'id'>>;
-  getAccounts?: Resolver<Maybe<Array<Maybe<ResolversTypes['PlaidAccount']>>>, ParentType, ContextType>;
+  getAccounts?: Resolver<Array<Maybe<ResolversTypes['PlaidAccount']>>, ParentType, ContextType>;
+  getTransactions?: Resolver<Array<Maybe<ResolversTypes['PlaidTransaction']>>, ParentType, ContextType, RequireFields<PlaidDomainGetTransactionsArgs, 'start' | 'end'>>;
+  __isTypeOf?: IsTypeOfResolverFn<ParentType>;
+};
+
+export type PlaidTransactionResolvers<ContextType = any, ParentType extends ResolversParentTypes['PlaidTransaction'] = ResolversParentTypes['PlaidTransaction']> = {
+  id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  userId?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  amount?: Resolver<ResolversTypes['Float'], ParentType, ContextType>;
+  name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  date?: Resolver<ResolversTypes['Date'], ParentType, ContextType>;
+  category?: Resolver<Maybe<Array<Maybe<ResolversTypes['String']>>>, ParentType, ContextType>;
+  category_id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  pending?: Resolver<ResolversTypes['Boolean'], ParentType, ContextType>;
+  account_id?: Resolver<ResolversTypes['ID'], ParentType, ContextType>;
+  payment_channel?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  merchant_name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  unofficial_currency_code?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  iso_currency_code?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
+  pending_transaction_id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType>;
 };
 
@@ -275,6 +332,7 @@ export type Resolvers<ContextType = any> = {
   Todo?: TodoResolvers<ContextType>;
   Mutation?: MutationResolvers<ContextType>;
   PlaidDomain?: PlaidDomainResolvers<ContextType>;
+  PlaidTransaction?: PlaidTransactionResolvers<ContextType>;
   PlaidAccount?: PlaidAccountResolvers<ContextType>;
 };
 

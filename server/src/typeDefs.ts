@@ -1,6 +1,6 @@
 import { gql } from 'apollo-server-express';
 import TodoDomain from './TodoDomain';
-import PlaidDomain from './PlaidDomain';
+import * as PlaidDomain from './PlaidDomain';
 
 const Query = gql`
   scalar Date
@@ -9,9 +9,6 @@ const Query = gql`
     todo: TodoDomain
     plaid: PlaidDomain
   }
-
-  ${TodoDomain}
-  ${PlaidDomain}
 `;
 
-export default Object.values({ Query });
+export default [Query, TodoDomain, ...Object.values(PlaidDomain)];

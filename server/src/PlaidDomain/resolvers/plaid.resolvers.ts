@@ -7,6 +7,9 @@ const resolvers: Resolvers<GqlContext>['PlaidDomain'] = {
   },
   getAccounts: (_, _args, { dataSources }) => {
     return dataSources.accountsApi.getAccounts();
+  },
+  getTransactions: (_, args, { dataSources, userId }) => {
+    return dataSources.transactionsApi.getTransactions({ ...args, userId });
   }
 };
 

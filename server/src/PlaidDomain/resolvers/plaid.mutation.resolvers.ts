@@ -7,6 +7,9 @@ const resolvers: Resolvers<GqlContext>['Mutation'] = {
   },
   deletePlaidAccount: async (_, { id }, { dataSources }) => {
     return dataSources.accountsApi.deletePlaidAccount(id);
+  },
+  syncHistoricalTransactions: (_, args, { dataSources, userId }) => {
+    return dataSources.transactionsApi.syncHistoricalTransactions({ ...args, userId });
   }
 };
 
