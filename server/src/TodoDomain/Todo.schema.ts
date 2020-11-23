@@ -5,18 +5,19 @@ text: String,
 dueDate: Date
 `;
 
-const Todo = gql`
+const TodoDomain = gql`
+  type TodoDomain {
+    todo(id: ID!): Todo
+    todos: [Todo]
+  }
+
   type Todo {
     id: ID!
+    userId: ID!
     title: String!
     text: String!
     completed: Boolean!
     dueDate: Date
-  }
-
-  type Query {
-    todo(id: ID!): Todo
-    todos: [Todo]
   }
 
   type Mutation {
@@ -32,9 +33,9 @@ const Todo = gql`
       completed: Boolean,
       ${sharedTodoInputArgs}
       ): Todo
-      
+
     deleteTodo(id: ID!): Todo
   }
 `;
 
-export default Todo;
+export default TodoDomain;
