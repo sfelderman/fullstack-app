@@ -1,0 +1,10 @@
+{
+  "webhook_type": "TRANSACTIONS",
+  "webhook_code": "TRANSACTIONS_REMOVED",
+  "item_id": "wz666MBjYWTp2PDzzggYhM6oWWmBb",
+  "removed_transactions": [
+    "yBVBEwrPyJs8GvR77N7QTxnGg6wG74H7dEDN6",
+    "kgygNvAVPzSX9KkddNdWHaVGRVex1MHm3k9no"
+  ],
+  "error": null
+}

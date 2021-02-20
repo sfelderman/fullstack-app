@@ -6,6 +6,11 @@ const TransactionSchema = new Schema({
     type: String,
     required: true
   },
+  account_id: {
+    type: Schema.Types.ObjectId,
+    ref: 'accounts',
+    required: true
+  },
   userId: {
     type: Schema.Types.ObjectId,
     ref: 'users',
@@ -55,9 +60,6 @@ const TransactionSchema = new Schema({
   // accountName: {
   //   type: String // TODO
   // },
-  // account_id: {
-  //   type: String // TODO might be objectId
-  // }
 });
 
 // TransactionSchema.virtual('id').get(function () {
@@ -71,7 +73,7 @@ TransactionSchema.set('toObject', {
 
 export interface TransactionInterface {
   // accountName: string; // TODO
-  // account_id: string; // TODO might be objectId
+  account_id: string; // TODO might be objectId
 
   userId: ObjectId;
   pending: boolean;

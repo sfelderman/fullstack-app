@@ -1,0 +1,7 @@
+{
+  "webhook_type": "ITEM",
+  "webhook_code": "WEBHOOK_UPDATE_ACKNOWLEDGED",
+  "item_id": "wz666MBjYWTp2PDzzggYhM6oWWmBb",
+  "error": null,
+  "new_webhook_url": "https://plaid.com/example/webhook"
+}

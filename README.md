@@ -30,17 +30,9 @@
 
 ## Setup
 
-- ESLINT setup
-- Prettier setup
-- Typescript setup
-- homescreen with routing
-- Login / register
-  - passport
-  - jwt, bycrypt
-  - validators
-- hookup to plaid
-- pull transactions
-- save transactions
+### Webhooks
+
+#### Initial Sync
 
 - ### TODO enhancements
   - Due dates

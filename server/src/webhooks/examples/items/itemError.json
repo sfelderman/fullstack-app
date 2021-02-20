@@ -1,0 +1,12 @@
+{
+  "webhook_type": "ITEM",
+  "webhook_code": "ERROR",
+  "item_id": "wz666MBjYWTp2PDzzggYhM6oWWmBb",
+  "error": {
+    "display_message": "The provided credentials were not correct. Please try again.",
+    "error_code": "ITEM_LOGIN_REQUIRED",
+    "error_message": "the provided credentials were not correct",
+    "error_type": "ITEM_ERROR",
+    "status": 400
+  }
+}

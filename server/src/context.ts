@@ -26,8 +26,8 @@ type DecodedJWT = {
 
 export const useMakeContext = (client: plaid.Client) => {
   const makeContext = ({ req }: { req: Request }): GqlContext => {
-    const authorization = req.headers.authorization?.replace('Bearer ', '').trim() || '';
-    const jwtValues = jwt.verify(authorization, process.env.secretOrKey!) as DecodedJWT;
+    // const authorization = req.headers.authorization?.replace('Bearer ', '').trim() || '';
+    // const jwtValues = jwt.verify(authorization, process.env.secretOrKey!) as DecodedJWT;
 
     return {
       dataSources: {
@@ -35,8 +35,8 @@ export const useMakeContext = (client: plaid.Client) => {
         accountsApi: new MongoPlaidAccountsApi(),
         transactionsApi: new PlaidPublicTransactionApi(client)
       },
-      userId: jwtValues.id,
-      userName: jwtValues.username
+      userId: '', //jwtValues.id,
+      userName: '' //jwtValues.username
     };
   };
 
